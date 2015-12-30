@@ -22,7 +22,7 @@ class login extends MY_Controller {
         $this->load->model('sys/user_model');
         $user_name  = $this->input->post('user_name');
         $pwd        = $this->input->post('pwd');
-        $result = $this->user_model->check_login($user_name,$pwd);
+        $result = $this->user_model->check_login($user_name, $pwd);
         if($result['success']) {
             $this->load->model('sys/pms_model');
             $user_pms = $this->pms_model->get_user_menu_pms($result['data']['user_id'], $result['data']['is_admin']);
