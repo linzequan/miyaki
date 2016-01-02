@@ -27,3 +27,8 @@ create table if not exists `recept_regist` (
     `member_status` varchar(2048) comment '家庭成员现状',
     primary key (`id`)
 ) engine = myisam character set utf8 collate utf8_general_ci comment = '接待登记信息表';
+
+
+-- linzequan 20160102
+-- 接待登记信息表添加创建时间及创建用户字段信息
+alter table `recept_regist` add `create_user_id` int comment '创建用户id', add `create_time` int(11) comment '创建时间戳', add `update_user_id` int comment '更新用户id', add `update_time` int(11) comment '更新时间戳';
