@@ -62,3 +62,8 @@ create table if not exists `branch_tree` (
     `update_time` int(11) comment '更新时间戳',
     primary key (`id`)
 ) engine = myisam character set utf8 collate utf8_general_ci comment = '分店树信息表';
+
+
+-- linzequan 20160106
+-- 分店树信息表添加排序字段
+alter table `branch_tree` add `sort` tinyint(4) default 0 comment '菜单排序';

@@ -86,6 +86,7 @@ function display_treeview($app_menu,$pid){
             <!-- 系统菜单 -->
             <div title="系统菜单" data-options="" style="padding:10px;">
                 <ul class="easyui-tree" id="sys_menu">
+                    <li><a url="<?php echo base_url('/sys/branch');?>"  pos="#sys-branch">分店管理</a></li>
                     <li><a url="<?php echo base_url('/sys/user');?>" pos="#sys-user">系统用户</a></li>
                     <li><a url="<?php echo base_url('/sys/menu');?>" pos="#sys-menu">应用菜单</a></li>
                     <li><a url="<?php echo base_url('/sys/pms');?>"  pos="#sys-pms">用户权限</a></li>
