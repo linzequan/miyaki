@@ -3,8 +3,8 @@
 <head>
 <?php
     $this->load->view('/public/linker',array(
-        'css'=>array('uploadify'),
-        'js' =>array('uploadify'),
+        'css'=>array(),
+        'js' =>array(),
     ));
     $ctrl_url = base_url('customer/recept_regist');
 ?>
@@ -25,228 +25,312 @@
                 <form id="fm-edit" method="post" style="width:90%; margin:10px;">
                     <input type="hidden" name="actionxm" value="<?php echo $actionxm; ?>" />
                     <input type="hidden" name="id" value="<?php echo get_value($info, 'id', '0'); ?>">
-                    <input type="hidden" name="share_img" value="<?php echo get_value($info, 'share_img'); ?>">
-                    <input type="hidden" name="follow_icon" value="<?php echo get_value($info, 'follow_icon'); ?>">
-                    <input type="hidden" name="banner" value="<?php echo get_value($info, 'banner'); ?>">
-                    <input type="hidden" name="slide" value="<?php echo get_value($info, 'slide'); ?>">
                     <table class="fm-table" cellpadding="8px">
                         <colgroup>
-                            <col width="120px"  />
+                            <col width="240px"  />
                             <col width="470px" />
                             <col width="*" />
                         </colgroup>
                         <tr>
+                            <td class="label" style="color:red;">
+                                <h3>基础信息</h3>
+                            </td>
+                            <td colspan="2">
+                                <!-- <div class="datagrid-toolbar"></div> -->
+                            </td>
+                        </tr>
+                        <tr>
                             <td class="label">
                                 <span class="required">*</span>
-                                活动名称：
+                                姓名：
                             </td>
                             <td>
                                 <input class="text" name="name" value="<?php echo get_value($info, 'name', ''); ?>" />
                             </td>
                             <td>
-                                <span style="color:red;">后台分辨活动使用，不会显示到前台</span>
+                                <span style="color:red;"></span>
                             </td>
                         </tr>
                         <tr>
                             <td class="label">
                                 <span class="required">*</span>
-                                活动时间：
+                                年龄：
                             </td>
                             <td>
-                                <input class="easyui-datetimebox" style="width:150px;" name="start_time" id="start_time">
-                                到
-                                <input class="easyui-datetimebox" style="width:150px;" name="end_time" id="end_time">
+                                <input class="text" name="age" value="<?php echo get_value($info, 'age', ''); ?>" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
                             </td>
                         </tr>
                         <tr>
                             <td class="label">
                                 <span class="required">*</span>
-                                SEO标题：
+                                性别：
                             </td>
                             <td>
-                                <input class="text" name="seo_title" value="<?php echo get_value($info, 'seo_title', ''); ?>" />
+                                <select name="sex" style="width:auto;">
+                                    <option value="1" <?php $sex=get_value($info, 'sex', ''); if($sex==1) echo 'selected="selected"'; ?>>男</option>
+                                    <option value="2" <?php $sex=get_value($info, 'sex', ''); if($sex==2) echo 'selected="selected"'; ?>>女</option>
+                                    <option value="0" <?php $sex=get_value($info, 'sex', ''); if($sex==0) echo 'selected="selected"'; ?>>未知</option>
+                                </select>
                             </td>
                             <td>
-                                <span style="color:red;">显示在手机顶部的标题</span>
+                                <span style="color:red;"></span>
                             </td>
                         </tr>
                         <tr>
                             <td class="label">
                                 <span class="required">*</span>
-                                SEO关键词：
+                                电话：
                             </td>
                             <td>
-                                <input class="text" name="seo_keywords" value="<?php echo get_value($info, 'seo_keywords', ''); ?>" />
+                                <input class="text" name="phone" value="<?php echo get_value($info, 'phone', ''); ?>" />
                             </td>
                             <td>
-                                <span style="color:red;">优化浏览器搜索使用</span>
+                                <span style="color:red;"></span>
                             </td>
                         </tr>
                         <tr>
                             <td class="label">
                                 <span class="required">*</span>
-                                SEO描述：
+                                地址：
                             </td>
                             <td>
-                                <input class="text" name="seo_description" value="<?php echo get_value($info, 'seo_description', ''); ?>" />
+                                <input class="text" name="address" value="<?php echo get_value($info, 'address', ''); ?>" />
                             </td>
                             <td>
-                                <span style="color:red;">优化浏览器搜索使用</span>
+                                <span style="color:red;"></span>
                             </td>
                         </tr>
                         <tr>
                             <td class="label">
                                 <span class="required">*</span>
-                                分享标题：
+                                家庭成员数量：
                             </td>
                             <td>
-                                <input class="text" name="share_title" value="<?php echo get_value($info, 'share_title', ''); ?>" />
+                                <input class="text" name="member_count" value="<?php echo get_value($info, 'member_count', ''); ?>" />
                             </td>
                             <td>
-                                <span style="color:red;">微信分享转发的标题</span>
+                                <span style="color:red;"></span>
                             </td>
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
-                                分享描述：
+                                <span class="required"></span>
+                                备注：
                             </td>
                             <td>
-                                <input class="text" name="share_desc" value="<?php echo get_value($info, 'share_desc', ''); ?>" />
+                                <input class="text" name="remarks" value="<?php echo get_value($info, 'remarks', ''); ?>" />
                             </td>
                             <td>
-                                <span style="color:red;">微信分享转发的描述</span>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label" style="color:red;">
+                                <h3>症状信息</h3>
+                            </td>
+                            <td colspan="2">
+                                <!-- <div class="datagrid-toolbar"></div> -->
                             </td>
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
-                                回复后描述：
+                                <span class="required"></span>
+                                身高：
                             </td>
                             <td>
-                                <input class="text" name="info_link" value="<?php echo get_value($info, 'info_link', ''); ?>" />
+                                <input class="text" name="height" value="<?php echo get_value($info, 'height', ''); ?>" />
                             </td>
                             <td>
-                                <span style="color:red;">关注公众号，回复关键词之后返回的图文信息的描述</span>
-                            </td>
-                        </tr>
-                        <tr class="orient-tr">
-                            <td class="label">
-                                <span class="required">*</span>
-                                分享图片：
-                            </td>
-                            <td>
-                                <input id="share_img" type="file" multiple="true" value="" />
-                                <div>
-                                    <img src="" id="share_img_prev">
-                                </div>
-                            </td>
-                            <td>
-                                <span style="color:red;">微信转发分享的图片。尺寸100*100</span>
+                                <span style="color:red;">单位：cm</span>
                             </td>
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
-                                关注标题：
+                                <span class="required"></span>
+                                体重：
                             </td>
                             <td>
-                                <input class="text" name="follow_title" value="<?php echo get_value($info, 'follow_title', ''); ?>" />
+                                <input class="text" name="weight" value="<?php echo get_value($info, 'weight', ''); ?>" />
                             </td>
-                            <td>&nbsp;</td>
+                            <td>
+                                <span style="color:red;">单位：（公斤）</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
-                                关注链接：
+                                <span class="required"></span>
+                                血压：
                             </td>
                             <td>
-                                <input class="text" name="follow_link" value="<?php echo get_value($info, 'follow_link', ''); ?>" />
-                            </td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr class="orient-tr">
-                            <td class="label">
-                                <span class="required">*</span>
-                                关注icon图标：
+                                <input class="text" name="blood_pressure" value="<?php echo get_value($info, 'blood_pressure', ''); ?>" />
                             </td>
                             <td>
-                                <input id="follow_icon" type="file" multiple="true" value="" />
-                                <div>
-                                    <img src="" id="follow_icon_prev">
-                                </div>
+                                <span style="color:red;"></span>
                             </td>
-                            <td>&nbsp;</td>
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
-                                参与有奖链接：
+                                <span class="required"></span>
+                                血糖：
                             </td>
                             <td>
-                                <input class="text" name="prize_link" value="<?php echo get_value($info, 'prize_link', ''); ?>" />
+                                <input class="text" name="blood_sugar" value="<?php echo get_value($info, 'blood_sugar', ''); ?>" />
                             </td>
-                            <td>&nbsp;</td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
-                                遮罩层微信号：
+                                <span class="required"></span>
+                                身体脂肪率：
                             </td>
                             <td>
-                                <input class="text" name="mask_wx" value="<?php echo get_value($info, 'mask_wx', ''); ?>" />
+                                <input class="text" name="fat_percent" value="<?php echo get_value($info, 'fat_percent', ''); ?>" />
                             </td>
-                            <td>&nbsp;</td>
+                            <td>
+                                <span style="color:red;">男10—19.9；女20—29.9</span>
+                            </td>
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
-                                遮罩层关键词：
+                                <span class="required"></span>
+                                BNI：
                             </td>
                             <td>
-                                <input class="text" name="mask_keyword" value="<?php echo get_value($info, 'mask_keyword', ''); ?>" />
+                                <input class="text" name="BNI" value="<?php echo get_value($info, 'BNI', ''); ?>" />
                             </td>
-                            <td>&nbsp;</td>
+                            <td>
+                                <span style="color:red;">18.5—25</span>
+                            </td>
                         </tr>
-                        <tr class="orient-tr">
-                            <td class="label">
-                                <span class="required">*</span>
-                                banner图片：
-                            </td>
-                            <td>
-                                <input id="banner" type="file" multiple="true" value="" />
-                                <div>
-                                    <img src="" id="banner_prev">
-                                </div>
-                            </td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <!-- <tr class="orient-tr">
-                            <td class="label">
-                                <span class="required">*</span>
-                                幻灯片图片：
-                            </td>
-                            <td>
-                                <input id="slide" type="file" multiple="true" value="" />
-                                <div id="slide_prev">
-                                </div>
-                            </td>
-                            <td>&nbsp;</td>
-                        </tr> -->
                         <tr>
                             <td class="label">
-                                访问人数：
+                                <span class="required"></span>
+                                内脏脂肪：
                             </td>
                             <td>
-                                <input class="text" name="access_count" value="<?php echo get_value($info, 'access_count', 0); ?>" />
+                                <input class="text" name="visceral_fat" value="<?php echo get_value($info, 'visceral_fat', ''); ?>" />
                             </td>
                             <td>
-                                <span style="color:red;">可以随时更改数字，就可以更改前台显示的访问人数</span>
+                                <span style="color:red;">（1—9）</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                <span class="required"></span>
+                                基础代谢：
+                            </td>
+                            <td>
+                                <input class="text" name="basal_metabolism" value="<?php echo get_value($info, 'basal_metabolism', ''); ?>" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                <span class="required"></span>
+                                身体年龄：
+                            </td>
+                            <td>
+                                <input class="text" name="body_age" value="<?php echo get_value($info, 'body_age', ''); ?>" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                <span class="required"></span>
+                                腰围：
+                            </td>
+                            <td>
+                                <input class="text" name="waistline" value="<?php echo get_value($info, 'waistline', ''); ?>" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                <span class="required"></span>
+                                臀围：
+                            </td>
+                            <td>
+                                <input class="text" name="hipline" value="<?php echo get_value($info, 'hipline', ''); ?>" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                <span class="required"></span>
+                                大腿围：
+                            </td>
+                            <td>
+                                <input class="text" name="thigh_circumference" value="<?php echo get_value($info, 'thigh_circumference', ''); ?>" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                <span class="required"></span>
+                                管理目标：
+                            </td>
+                            <td>
+                                <input class="text" name="manage_aim" value="<?php echo get_value($info, 'manage_aim', ''); ?>" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                <span class="required"></span>
+                                健康现状描述（病症）：
+                            </td>
+                            <td>
+                                <input class="text" name="health_status" value="<?php echo get_value($info, 'health_status', ''); ?>" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                <span class="required"></span>
+                                所用药物或其他：
+                            </td>
+                            <td>
+                                <input class="text" name="drugs_used" value="<?php echo get_value($info, 'drugs_used', ''); ?>" />
+                            </td>
+                            <td>
+                                <span style="color:red;">药物名称、用量</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                <span class="required"></span>
+                                家庭成员现状：
+                            </td>
+                            <td>
+                                <input class="text" name="member_status" value="<?php echo get_value($info, 'member_status', ''); ?>" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
                             </td>
                         </tr>
                         <tr>
                             <td style="text-align:center;" colspan="2">
                                 <button type="button" class="easyui-linkbutton" style="width:90px" onclick="do_save()">保存</button>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
                                 <button type="button" class="easyui-linkbutton" style="width:90px" onclick="do_reset()">重置</button>
                             </td>
                             <td>&nbsp;</td>
@@ -262,175 +346,7 @@
 
     $(function() {
 
-        var prev_host = 'http://<?php echo $_SERVER["HTTP_HOST"]; ?>/www/res/files/';
-
-        $('#fixed_start_time').timespinner({
-            showSeconds: true
-        });
-        $('#fixed_end_time').timespinner({
-            showSeconds: true
-        });
-
-        // 开始结束时间段
-        var start_time = "<?php echo get_value($info, 'start_time', ''); ?>",
-            end_time = "<?php echo get_value($info, 'end_time', ''); ?>";
-        if(start_time!='') {
-            $('#start_time').datetimebox({
-                value: start_time
-            });
-        }
-        if(end_time!='') {
-            $('#end_time').datetimebox({
-                value: end_time
-            });
-        }
-
-        var share_img = "<?php echo get_value($info, 'share_img', ''); ?>";
-        if(share_img!='') {
-            $('#share_img_prev').attr('src', prev_host+'share_img/'+share_img);
-            $('#share_img_prev').css('height', '100px');
-        }
-        var follow_icon = "<?php echo get_value($info, 'follow_icon', ''); ?>";
-        if(follow_icon!='') {
-            $('#follow_icon_prev').attr('src', prev_host+'follow_icon/'+follow_icon);
-            $('#follow_icon_prev').css('height', '100px');
-        }
-        var banner = "<?php echo get_value($info, 'banner', ''); ?>";
-        if(banner!='') {
-            $('#banner_prev').attr('src', prev_host+'banner/'+banner);
-            $('#banner_prev').css('height', '100px');
-        }
-
-        // 分享图片上传
-        $('#share_img').uploadify({
-            fileTypeDesc: '上传文件',
-            fileTypeExts: '*.jpg;*.jpeg;*.gif;*.png',
-            multi: false,
-            buttonText:'上传文件',
-            height:'25',
-            width  :'100',
-            swf    :'<?php echo base_url("/static/js/uploadify.swf");?>',
-            method :'post',
-            fileObjName:'uploadfile',
-            uploader: '<?php echo $ctrl_url; ?>/post',
-            formData: {
-                'actionxm': 'upload_file',
-                'file_type': 'share_img'
-            },
-            onUploadStart: function(file) {
-                $.messager.progress();
-            },
-            onUploadSuccess:function(file, data, response){
-                result = $.parseJSON(data);
-                if(result['success']){
-                    $('#fm-edit input[name="share_img"]').val(result['data']['name']);
-                    $('#share_img_prev').attr('src', prev_host+'share_img/'+result['data']['name']);
-                    $('#share_img_prev').css('height', '100px');
-                }else{
-                    $.messager.alert('操作提示',result['data']);
-                }
-                $.messager.progress('close');
-            }
-        });
-
-        // 关注icon图标上传
-        $('#follow_icon').uploadify({
-            fileTypeDesc: '上传文件',
-            fileTypeExts: '*.jpg;*.jpeg;*.gif;*.png',
-            multi: false,
-            buttonText:'上传文件',
-            height:'25',
-            width  :'100',
-            swf    :'<?php echo base_url("/static/js/uploadify.swf");?>',
-            method :'post',
-            fileObjName:'uploadfile',
-            uploader: '<?php echo $ctrl_url; ?>/post',
-            formData: {
-                'actionxm': 'upload_file',
-                'file_type': 'follow_icon'
-            },
-            onUploadStart: function(file) {
-                $.messager.progress();
-            },
-            onUploadSuccess:function(file, data, response){
-                result = $.parseJSON(data);
-                if(result['success']){
-                    $('#fm-edit input[name="follow_icon"]').val(result['data']['name']);
-                    $('#follow_icon_prev').attr('src', prev_host+'follow_icon/'+result['data']['name']);
-                    $('#follow_icon_prev').css('height', '100px');
-                }else{
-                    $.messager.alert('操作提示',result['data']);
-                }
-                $.messager.progress('close');
-            }
-        });
-
-        // banner图片上传
-        $('#banner').uploadify({
-            fileTypeDesc: '上传文件',
-            fileTypeExts: '*.jpg;*.jpeg;*.gif;*.png',
-            multi: false,
-            buttonText:'上传文件',
-            height:'25',
-            width  :'100',
-            swf    :'<?php echo base_url("/static/js/uploadify.swf");?>',
-            method :'post',
-            fileObjName:'uploadfile',
-            uploader: '<?php echo $ctrl_url; ?>/post',
-            formData: {
-                'actionxm': 'upload_file',
-                'file_type': 'banner'
-            },
-            onUploadStart: function(file) {
-                $.messager.progress();
-            },
-            onUploadSuccess:function(file, data, response){
-                result = $.parseJSON(data);
-                if(result['success']){
-                    $('#fm-edit input[name="banner"]').val(result['data']['name']);
-                    $('#banner_prev').attr('src', prev_host+'banner/'+result['data']['name']);
-                    $('#banner_prev').css('height', '100px');
-                }else{
-                    $.messager.alert('操作提示',result['data']);
-                }
-                $.messager.progress('close');
-            }
-        });
-
-        // 幻灯片上传
-        $('#slide').uploadify({
-            fileTypeDesc: '上传文件',
-            fileTypeExts: '*.jpg;*.jpeg;*.gif;*.png',
-            multi: false,
-            buttonText:'上传文件',
-            height:'25',
-            width  :'100',
-            swf    :'<?php echo base_url("/static/js/uploadify.swf");?>',
-            method :'post',
-            fileObjName:'uploadfile',
-            uploader: '<?php echo $ctrl_url; ?>/post',
-            formData: {
-                'actionxm': 'upload_file',
-                'file_type': 'slide'
-            },
-            onUploadStart: function(file) {
-                $.messager.progress();
-            },
-            onUploadSuccess:function(file, data, response){
-                result = $.parseJSON(data);
-                if(result['success']){
-                    $('#fm-edit input[name="slide"]').val($('#fm-edit input[name="slide"]').val()+';'+result['data']['name']);
-                    var img = prev_host+'slide/'+result['data']['name'];
-                    var str = '<img src="'+img+'" style="height:100px;">';
-                    $('#slide_prev').append(str);
-                }else{
-                    $.messager.alert('操作提示',result['data']);
-                }
-                $.messager.progress('close');
-            }
-        });
-
-    })
+    });
 
     // 保存登录tips信息
     function do_save() {
@@ -438,71 +354,27 @@
             url: '<?php echo $ctrl_url; ?>/post',
             onSubmit: function() {
                 if($('#fm-edit input[name="name"]').val()=='') {
-                    $.messager.alert('操作提示', '请输入活动名称');
+                    $.messager.alert('操作提示', '请输入姓名');
                     return false;
                 }
-                if($('#fm-edit input[name="start_time"]').val()=='') {
-                    $.messager.alert('操作提示', '请输入活动开始时间');
+                if($('#fm-edit input[name="age"]').val()=='') {
+                    $.messager.alert('操作提示', '请输入年龄');
                     return false;
                 }
-                if($('#fm-edit input[name="end_time"]').val()=='') {
-                    $.messager.alert('操作提示', '请输入活动结束时间');
+                if($('#fm-edit input[name="sex"]').val()=='') {
+                    $.messager.alert('操作提示', '请输入性别');
                     return false;
                 }
-                if($('#fm-edit input[name="seo_title"]').val()=='') {
-                    $.messager.alert('操作提示', 'SEO标题');
+                if($('#fm-edit input[name="phone"]').val()=='') {
+                    $.messager.alert('操作提示', '请输入电话');
                     return false;
                 }
-                if($('#fm-edit input[name="seo_keywords"]').val()=='') {
-                    $.messager.alert('操作提示', 'SEO关键词');
+                if($('#fm-edit input[name="address"]').val()=='') {
+                    $.messager.alert('操作提示', '请输入地址');
                     return false;
                 }
-                if($('#fm-edit input[name="seo_description"]').val()=='') {
-                    $.messager.alert('操作提示', 'SEO描述');
-                    return false;
-                }
-                if($('#fm-edit input[name="share_title"]').val()=='') {
-                    $.messager.alert('操作提示', '分享标题');
-                    return false;
-                }
-                if($('#fm-edit input[name="share_desc"]').val()=='') {
-                    $.messager.alert('操作提示', '分享描述');
-                    return false;
-                }
-                if($('#fm-edit input[name="share_img"]').val()=='') {
-                    $.messager.alert('操作提示', '请上传分享图片');
-                    return false;
-                }
-                if($('#fm-edit input[name="follow_title"]').val()=='') {
-                    $.messager.alert('操作提示', '关注标题');
-                    return false;
-                }
-                if($('#fm-edit input[name="follow_link"]').val()=='') {
-                    $.messager.alert('操作提示', '关注链接');
-                    return false;
-                }
-                if($('#fm-edit input[name="follow_icon"]').val()=='') {
-                    $.messager.alert('操作提示', '请上传关注icon图标');
-                    return false;
-                }
-                if($('#fm-edit input[name="info_link"]').val()=='') {
-                    $.messager.alert('操作提示', '活动须知链接');
-                    return false;
-                }
-                if($('#fm-edit input[name="prize_link"]').val()=='') {
-                    $.messager.alert('操作提示', '参与有奖链接');
-                    return false;
-                }
-                if($('#fm-edit input[name="mask_wx"]').val()=='') {
-                    $.messager.alert('操作提示', '遮罩层微信号');
-                    return false;
-                }
-                if($('#fm-edit input[name="mask_keyword"]').val()=='') {
-                    $.messager.alert('操作提示', '遮罩层关键词');
-                    return false;
-                }
-                if($('#fm-edit input[name="banner"]').val()=='') {
-                    $.messager.alert('操作提示', '请上传banner图片');
+                if($('#fm-edit input[name="member_count"]').val()=='') {
+                    $.messager.alert('操作提示', '请输入家庭成员数量');
                     return false;
                 }
                 return true;

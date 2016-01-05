@@ -16,7 +16,26 @@ class recept_regist_model extends MY_Model {
 
 
     public function search($params, $order, $page) {
+
+        $start_time = get_value($params, 'start_time');         // 创建开始时间
+        $end_time = get_value($params, 'end_time');             // 创建结束时间
+        $name = get_value($params, 'name');                     // 姓名
+        $phone = get_value($params, 'phone');                   // 电话
+
         $where = array();
+        if($start_time!='') {
+            $where[] = array('create_time', strtotime($start_time), '>=');
+        }
+        if($end_time!='') {
+            $where[] = array('create_time', strtotime($end_time), '<=');
+        }
+        if($name!='') {
+            $where[] = array('name', $name, 'like');
+        }
+        if($phone!='') {
+            $where[] = array('phone', $phone);
+        }
+
         if(count($order)==0) {
             $order[] = ' create_time desc';
         }
@@ -39,9 +58,9 @@ class recept_regist_model extends MY_Model {
                 $datas['rows'][$k]['update_user_name'] = '';
             }
             // 创建时间
-            $datas['rows'][$k]['create_time'] = date('Y-m-d H:i:s', $v['create_time']);
+            $datas['rows'][$k]['create_time'] = $v['create_time']=='' ? '' : date('Y-m-d H:i:s', $v['create_time']);
             // 更新时间
-            $datas['rows'][$k]['update_time'] = date('Y-m-d H:i:s', $v['update_time']);
+            $datas['rows'][$k]['update_time'] = $v['update_time']=='' ? '' : date('Y-m-d H:i:s', $v['update_time']);
         }
         return $datas;
     }
@@ -164,7 +183,7 @@ class recept_regist_model extends MY_Model {
                             '<td>' . $rows[0]['BNI'] . '</td>' .
                         '</tr>';
             }
-            if($rows[0]['visceral_fat']!='') {
+            if($rows[0]['visceral_fat']!=0) {
                 $str .= '<tr>' .
                             '<td class="dv-label">内脏脂肪: </td>' .
                             '<td>' . $rows[0]['visceral_fat'] . '</td>' .
@@ -176,7 +195,7 @@ class recept_regist_model extends MY_Model {
                             '<td>' . $rows[0]['basal_metabolism'] . '</td>' .
                         '</tr>';
             }
-            if($rows[0]['body_age']!='') {
+            if($rows[0]['body_age']!=0) {
                 $str .= '<tr>' .
                             '<td class="dv-label">身体年龄: </td>' .
                             '<td>' . $rows[0]['body_age'] . '</td>' .
@@ -234,8 +253,62 @@ class recept_regist_model extends MY_Model {
 
 
     public function insert($info) {
-        $this->db->insert($this->table, $info);
-        $record_id = $this->db->insert_id();
-        return $this->create_result(true, 0, array('id'=>$record_id));
+         $data = array(
+            'name'                  => get_value($info, 'name'),
+            'age'                   => get_value($info, 'age'),
+            'sex'                   => get_value($info, 'sex'),
+            'phone'                 => get_value($info, 'phone'),
+            'address'               => get_value($info, 'address'),
+            'member_count'          => get_value($info, 'member_count'),
+            'remarks'               => get_value($info, 'remarks'),
+            'height'                => get_value($info, 'height'),
+            'weight'                => get_value($info, 'weight'),
+            'blood_pressure'        => get_value($info, 'blood_pressure'),
+            'blood_sugar'           => get_value($info, 'blood_sugar'),
+            'fat_percent'           => get_value($info, 'fat_percent'),
+            'BNI'                   => get_value($info, 'BNI'),
+            'visceral_fat'          => get_value($info, 'visceral_fat'),
+            'basal_metabolism'      => get_value($info, 'basal_metabolism'),
+            'body_age'              => get_value($info, 'body_age'),
+            'waistline'             => get_value($info, 'waistline'),
+            'hipline'               => get_value($info, 'hipline'),
+            'thigh_circumference'   => get_value($info, 'thigh_circumference'),
+            'drugs_used'            => get_value($info, 'drugs_used'),
+            'create_user_id'        => $this->session->userdata('user_id'),
+            'create_time'           => time()
+        );
+        $this->db->insert($this->table, $data);
+        return $this->create_result(true, 0, array('id'=>$this->db->insert_id()));
+    }
+
+
+    public function update($id, $info) {
+        $data = array(
+            'name'                  => get_value($info, 'name'),
+            'age'                   => get_value($info, 'age'),
+            'sex'                   => get_value($info, 'sex'),
+            'phone'                 => get_value($info, 'phone'),
+            'address'               => get_value($info, 'address'),
+            'member_count'          => get_value($info, 'member_count'),
+            'remarks'               => get_value($info, 'remarks'),
+            'height'                => get_value($info, 'height'),
+            'weight'                => get_value($info, 'weight'),
+            'blood_pressure'        => get_value($info, 'blood_pressure'),
+            'blood_sugar'           => get_value($info, 'blood_sugar'),
+            'fat_percent'           => get_value($info, 'fat_percent'),
+            'BNI'                   => get_value($info, 'BNI'),
+            'visceral_fat'          => get_value($info, 'visceral_fat'),
+            'basal_metabolism'      => get_value($info, 'basal_metabolism'),
+            'body_age'              => get_value($info, 'body_age'),
+            'waistline'             => get_value($info, 'waistline'),
+            'hipline'               => get_value($info, 'hipline'),
+            'thigh_circumference'   => get_value($info, 'thigh_circumference'),
+            'drugs_used'            => get_value($info, 'drugs_used'),
+            'update_user_id'        => $this->session->userdata('user_id'),
+            'update_time'           => time()
+        );
+        $where = array('id'=>$id);
+        $this->db->update($this->table, $data, $where);
+        return $this->create_result(true, 0, $where);
     }
 }

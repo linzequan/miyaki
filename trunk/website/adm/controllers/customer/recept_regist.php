@@ -53,4 +53,22 @@ class recept_regist extends MY_Controller {
         }
     }
 
+
+    public function post() {
+        $actionxm = $this->get_request('actionxm');
+        $result = array();
+        switch($actionxm) {
+            case 'insert':
+                $info = $this->get_request();
+                $result = $this->def_model->insert($info);
+                break;
+            case 'update':
+                $id = $this->input->post('id');
+                $info = $this->get_request();
+                $result = $this->def_model->update($id, $info);
+                break;
+        }
+        $this->output_result($result);
+    }
+
 }
