@@ -32,3 +32,19 @@ create table if not exists `recept_regist` (
 -- linzequan 20160102
 -- 接待登记信息表添加创建时间及创建用户字段信息
 alter table `recept_regist` add `create_user_id` int comment '创建用户id', add `create_time` int(11) comment '创建时间戳', add `update_user_id` int comment '更新用户id', add `update_time` int(11) comment '更新时间戳';
+
+
+-- linzequan 20160105
+-- 添加体检登记信息表
+create table if not exists `exam_regist` (
+    `id` int not null auto_increment comment '自增id',
+    `name` varchar(128) not null comment '体检名称',
+    `result` text comment '结果',
+    `upper_limit` text comment '参考上限',
+    `lower_limit` text comment '参考下限',
+    `create_user_id` int comment '创建用户id',
+    `create_time` int(11) comment '创建时间戳',
+    `update_user_id` int comment '更新用户id',
+    `update_time` int(11) comment '更新时间戳',
+    primary key (`id`)
+) engine = myisam character set utf8 collate utf8_general_ci comment = '体检登记信息表';
