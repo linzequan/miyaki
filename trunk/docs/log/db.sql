@@ -48,3 +48,17 @@ create table if not exists `exam_regist` (
     `update_time` int(11) comment '更新时间戳',
     primary key (`id`)
 ) engine = myisam character set utf8 collate utf8_general_ci comment = '体检登记信息表';
+
+
+-- linzequan 20160106
+-- 添加分店树信息表
+create table if not exists `branch_tree` (
+    `id` int not null auto_increment comment '自增id',
+    `name` varchar(128) not null comment '名称',
+    `pid` int not null comment '父id，根节点为0',
+    `create_user_id` int comment '创建用户id',
+    `create_time` int(11) comment '创建时间戳',
+    `update_user_id` int comment '更新用户id',
+    `update_time` int(11) comment '更新时间戳',
+    primary key (`id`)
+) engine = myisam character set utf8 collate utf8_general_ci comment = '分店树信息表';
