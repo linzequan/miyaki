@@ -6,7 +6,7 @@
             'css'=>array(),
             'js' =>array('jquery.easyui.extension/datagrid-detailview'),
         ));
-        $ctrl_url = base_url('customer/recept_regist');
+        $ctrl_url = base_url('customer/exam_regist');
     ?>
     <style>
     .split-line {
@@ -29,7 +29,7 @@
     </style>
 </head>
 <body>
-    <div id="p-dg" class="easyui-panel" title="接待登记管理" fit="true" border="false">
+    <div id="p-dg" class="easyui-panel" title="体检登记管理" fit="true" border="false">
         <table id="dg" class="easyui-datagrid" title=""
                fit="true" border="false" plain="true"
                toolbar="#toolbar" multiSort="true"
@@ -38,14 +38,14 @@
             <thead>
                 <tr>
                     <th data-options="sortable:true,field:'id',width:50">编号</th>
-                    <th data-options="sortable:true,field:'name',width:80">姓名</th>
-                    <th data-options="sortable:true,field:'age',width:50">年龄</th>
-                    <th data-options="sortable:true,field:'sex',width:50" formatter="format_sex">性别</th>
-                    <th data-options="sortable:true,field:'phone',width:130">电话</th>
-                    <th data-options="sortable:true,field:'create_user_name',width:130">创建人</th>
-                    <th data-options="sortable:true,field:'create_time',width:130">创建时间</th>
-                    <th data-options="sortable:true,field:'update_user_name',width:130">更新人</th>
-                    <th data-options="sortable:true,field:'update_time',width:130">更新时间</th>
+                    <th data-options="sortable:true,field:'name',width:80">体检名称</th>
+                    <th data-options="sortable:true,field:'result',width:150">结果</th>
+                    <th data-options="sortable:true,field:'upper_limit',width:130">参考上限</th>
+                    <th data-options="sortable:true,field:'lower_limit',width:130">参考下限</th>
+                    <th data-options="sortable:true,field:'create_user_name',width:100">创建人</th>
+                    <th data-options="sortable:true,field:'create_time',width:120">创建时间</th>
+                    <th data-options="sortable:true,field:'update_user_name',width:100">更新人</th>
+                    <th data-options="sortable:true,field:'update_time',width:120">更新时间</th>
                 </tr>
             </thead>
         </table>
@@ -60,10 +60,8 @@
                     <input class="easyui-datetimebox" style="width:150px;" name="start_time" id="start_time">
                     到
                     <input class="easyui-datetimebox" style="width:150px;" name="end_time" id="end_time">
-                    姓名：
+                    体检名称：
                     <input id="title" class="easyui-textbox" style="width:100px" name="name">
-                    电话：
-                    <input id="title" class="easyui-textbox" style="width:100px" name="phone">
                     <span class="split-line">|</span>
                     <a class="easyui-linkbutton" iconCls="icon-search" onclick="do_search()" style="width:60px">搜索</a>
                 </div>
@@ -71,7 +69,7 @@
         </div>
     </div>
 
-    <div id="p-edit" class="easyui-panel" title="接待登记编辑" fit="true" border="false">
+    <div id="p-edit" class="easyui-panel" title="体检登记编辑" fit="true" border="false">
         <iframe id="manage_edit" style="width:100%;height:99%;border:0;" frameborder="0" scrolling="true" ></iframe>
     </div>
 
@@ -149,23 +147,6 @@
         var fm_data = $('#fm-search').form('getData');
         $('#dg').datagrid('options').queryParams = {actionxm:'search', rs:fm_data};
         $('#dg').datagrid('reload');
-    }
-
-    // 格式化性别
-    function format_sex(value, row) {
-        var rtn = '';
-        switch(value) {
-            case '1':
-                rtn = '<span style="color:green;">男</span>';
-                break;
-            case '2':
-                rtn = '<span style="color:red;">女</span>';
-                break;
-            default:
-                rtn = '<span style="color:grey;">未知</span>';
-                break;
-        }
-        return rtn;
     }
     </script>
 </body>
