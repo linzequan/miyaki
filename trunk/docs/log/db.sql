@@ -67,3 +67,8 @@ create table if not exists `branch_tree` (
 -- linzequan 20160106
 -- 分店树信息表添加排序字段
 alter table `branch_tree` add `sort` tinyint(4) default 0 comment '菜单排序';
+
+
+-- linzequan 20160106
+-- 系统用户表添加分店id字段
+alter table `sys_user` add `bid` int comment '分店id';

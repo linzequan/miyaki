@@ -20,7 +20,7 @@
                 <th data-options="sortable:true,field:'user_id',width:80">会员ID</th>
                 <th data-options="sortable:true,field:'user_name',width:120">会员账号</th>
                 <th data-options="sortable:true,field:'true_name',width:120">真实姓名</th>
-                <th data-options="sortable:true,field:'uposition',width:120">所属部门</th>
+                <th data-options="sortable:true,field:'bname',width:120">所属分店</th>
                 <th data-options="sortable:true,field:'is_admin',width:100,align:'left'">是否管理员</th>
                 <th data-options="sortable:true,field:'create_uname',width:120">创建账号</th>
                 <th data-options="sortable:true,field:'create_time',width:200">创建时间</th>
@@ -40,6 +40,10 @@
     <?php $this->load->view('sys/user_edit');?>
 
     <script type="text/javascript">
+
+    $(function() {
+        reload_pmenu();
+    })
 
     /*查询操作*/
     function open_search(){
@@ -66,7 +70,7 @@
                 user_id     :info.user_id,
                 user_name   :info.user_name,
                 true_name   :info.true_name,
-                uposition   :info.uposition,
+                bid         :info.bid,
                 is_admin    :info.is_admin,
                 pwd         :'not-pwd'
         };
@@ -105,6 +109,25 @@
                         $.messager.alert('操作提示','删除成功');
                     }
                 },'json');
+            }
+        });
+    }
+
+    function reload_pmenu() {
+        $.ajax({
+            url: "<?php echo base_url('sys/branch/get?actionxm=search'); ?>",
+            success: function(res) {
+                var dg_rows = JSON.parse(res);
+                var options = '<option value="0">---无---</option>';
+                var name = '';
+                for(var x in dg_rows) {
+                    name = dg_rows[x].name;
+                    if(dg_rows[x].level>0) {
+                        name = (new Array(dg_rows[x].level+1).join('&nbsp;&nbsp;&nbsp;&nbsp;'))+'|-'+name;
+                    }
+                    options+='<option value="'+dg_rows[x].id+'">'+name+'</option>';
+                }
+                $('#combo_pmenu').html(options);
             }
         });
     }

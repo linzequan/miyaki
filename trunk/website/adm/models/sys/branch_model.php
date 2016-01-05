@@ -79,4 +79,32 @@ class branch_model extends MY_Model {
         $this->db->delete($this->table, array('id'=>$id));
         return $this->create_result(true, 0, '删除成功');
     }
+
+
+    /**
+     * 检查节点是否为叶子节点
+     * @param  [type]  $id 节点id
+     * @return boolean     是叶子节点返回true，否则返回false
+     */
+    public function is_leaf($id) {
+        $query = $this->db->where('pid', $id)->select('id')->get($this->table);
+        $count = $query->num_rows();
+        $query->free_result();
+        if($count>0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    public function get_name_by_id($id) {
+        $query = $this->db->where('id', $id)->select('name')->get($this->table);
+        $result = $query->result_array();
+        if(count($result)>0) {
+            return $result[0]['name'];
+        } else {
+            return false;
+        }
+    }
 }
