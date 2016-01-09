@@ -311,4 +311,24 @@ class recept_regist_model extends MY_Model {
         $this->db->update($this->table, $data, $where);
         return $this->create_result(true, 0, $where);
     }
+
+
+    public function getAllUser() {
+        $query = $this->db->select($this->fields)->get($this->table);
+        if($query->num_rows()<=0) {
+            return array();
+        }
+        $result = $query->result_array();
+        return $result;
+    }
+
+
+    public function getCustomerTree() {
+        $customers = $this->getAllUser();
+        $customerTree = '<option value="0">---请选择---</option>';
+        foreach($customers as $k=>$v) {
+            $customerTree .= '<option value="' . $v['id'] . '">' . $v['phone'] . '(' . $v['name'] . ')</option>';
+        }
+        return $customerTree;
+    }
 }

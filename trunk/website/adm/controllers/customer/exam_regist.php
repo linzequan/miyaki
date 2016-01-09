@@ -23,12 +23,14 @@ class exam_regist extends MY_Controller {
             'actionxm' => 'insert',
             'info' => array()
         );
-        if(intval($id)>0) {
+        if(intval($id)>=0) {
             $info = $this->def_model->get_info($id);
             if(count($info)>0) {
-                $data['actionxm'] = 'update';
                 $data['info'] = $info;
             }
+        }
+        if(intval($id)>0) {
+            $data['actionxm'] = 'update';
         }
         $this->load->view('customer/exam_regist_info', $data);
     }

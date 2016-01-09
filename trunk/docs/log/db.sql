@@ -72,3 +72,8 @@ alter table `branch_tree` add `sort` tinyint(4) default 0 comment '菜单排序'
 -- linzequan 20160106
 -- 系统用户表添加分店id字段
 alter table `sys_user` add `bid` int comment '分店id';
+
+
+-- linzequan 20160109
+-- 体检登记信息表添加用户id字段
+alter table `exam_regist` add `uid` int not null comment '客户id';

@@ -1,6 +1,6 @@
 <?php
 /**
- * 接待登记管理模型
+ * 体检登记管理模型
  *
  * @author linzequan <lowkey361@gmail.com>
  *
@@ -8,7 +8,7 @@
 class exam_regist_model extends MY_Model {
 
     private $table = 'exam_regist';
-    private $fields = 'id, name, result, upper_limit, lower_limit, create_user_id, create_time, update_user_id, update_time';
+    private $fields = 'id, name, uid, result, upper_limit, lower_limit, create_user_id, create_time, update_user_id, update_time';
 
     public function __construct() {
         parent::__construct();
@@ -37,8 +37,16 @@ class exam_regist_model extends MY_Model {
         }
         $datas = $this->db->get_page($this->table, $this->fields, $where, $order, $page);
         $this->load->model('sys/user_model', 'user_model');
+        $this->load->model('recept_regist_model');
         $CI = &get_instance();
         foreach($datas['rows'] as $k=>$v) {
+            // 客户名称
+            if($v['uid']>0) {
+                $userinfo = $CI->recept_regist_model->get_info($v['uid']);
+                $datas['rows'][$k]['custName'] = $userinfo['name'] . '(' . $userinfo['phone'] . ')';
+            } else {
+                $datas['rows'][$k]['custName'] = '';
+            }
             // 创建记录用户名
             $create_user_info = $CI->user_model->get_userinfo_by_id($v['create_user_id']);
             if($create_user_info) {
@@ -63,16 +71,24 @@ class exam_regist_model extends MY_Model {
 
 
     public function get_info($id) {
-        if($id<=0) {
+        if($id<0) {
             return array();
         }
         $result = array();
 
+        // 获取客户树
+        $this->load->model('recept_regist_model');
+        $CI = &get_instance();
+        $customerTree = $CI->recept_regist_model->getCustomerTree();
+
         $query = $this->db->select($this->fields)->where('id', $id)->get($this->table);
         if($query->num_rows()<=0) {
-            return array();
+            $result['customerTree'] = $customerTree;
+            return $result;
         }
         $result = $query->row_array();
+        $result['customerTree'] = $customerTree;
+
         return $result;
     }
 
@@ -92,9 +108,21 @@ class exam_regist_model extends MY_Model {
                         '</tr>';
             if($rows[0]['name']!='') {
                 $str .= '<tr>' .
-                            '<td class="dv-label">姓名: </td>' .
+                            '<td class="dv-label">体检名称: </td>' .
                             '<td>' . $rows[0]['name'] . '</td>' .
                         '</tr>';
+            }
+            if($rows[0]['uid']!='') {
+                // 查询得到uid对应用户信息
+                $this->load->model('recept_regist_model');
+                $CI = &get_instance();
+                $userinfo = $CI->recept_regist_model->get_info($rows[0]['uid']);
+                if(count($userinfo)>0) {
+                    $str .= '<tr>' .
+                            '<td class="dv-label">姓名: </td>' .
+                            '<td>' . $userinfo['name'] . '(' . $userinfo['phone'] . ')</td>' .
+                        '</tr>';
+                }
             }
             if($rows[0]['result']!='') {
                 $str .= '<tr>' .
@@ -126,6 +154,7 @@ class exam_regist_model extends MY_Model {
     public function insert($info) {
          $data = array(
             'name'              => get_value($info, 'name'),
+            'uid'               => get_value($info, 'uid'),
             'result'            => get_value($info, 'result'),
             'upper_limit'       => get_value($info, 'upper_limit'),
             'lower_limit'       => get_value($info, 'lower_limit'),
@@ -140,6 +169,7 @@ class exam_regist_model extends MY_Model {
     public function update($id, $info) {
         $data = array(
             'name'              => get_value($info, 'name'),
+            'uid'               => get_value($info, 'uid'),
             'result'            => get_value($info, 'result'),
             'upper_limit'       => get_value($info, 'upper_limit'),
             'lower_limit'       => get_value($info, 'lower_limit'),
