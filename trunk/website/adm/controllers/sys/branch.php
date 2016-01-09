@@ -25,6 +25,9 @@ class branch extends MY_Controller {
             case 'search':
                 $result = $this->def_model->search();
                 break;
+            case 'get_list':
+                $result = $this->def_model->get_list();
+                break;
         }
         echo json_encode($result);
     }

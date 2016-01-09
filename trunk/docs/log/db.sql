@@ -77,3 +77,13 @@ alter table `sys_user` add `bid` int comment '分店id';
 -- linzequan 20160109
 -- 体检登记信息表添加用户id字段
 alter table `exam_regist` add `uid` int not null comment '客户id';
+
+
+-- linzequan 20160109
+-- 接待登记信息表添加业务员id
+alter table `recept_regist` add `custId` int not null comment '业务员id';
+
+
+-- linzequan 20160109
+-- 接待登记信息表添加分店id
+alter table `recept_regist` add `branchId` int not null comment '分店id';

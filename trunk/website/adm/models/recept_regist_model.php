@@ -8,7 +8,7 @@
 class recept_regist_model extends MY_Model {
 
     private $table = 'recept_regist';
-    private $fields = 'id, name, age, sex, phone, address, member_count, remarks, height, weight, blood_pressure, blood_sugar, fat_percent, BNI, visceral_fat, basal_metabolism, body_age, waistline, hipline, thigh_circumference, manage_aim, health_status, drugs_used, member_status, create_user_id, create_time, update_user_id, update_time';
+    private $fields = 'id, name, age, sex, phone, address, member_count, remarks, height, weight, blood_pressure, blood_sugar, fat_percent, BNI, visceral_fat, basal_metabolism, body_age, waistline, hipline, thigh_circumference, manage_aim, health_status, drugs_used, member_status, create_user_id, create_time, update_user_id, update_time, branchId, custId';
 
     public function __construct() {
         parent::__construct();
@@ -21,6 +21,8 @@ class recept_regist_model extends MY_Model {
         $end_time = get_value($params, 'end_time');             // 创建结束时间
         $name = get_value($params, 'name');                     // 姓名
         $phone = get_value($params, 'phone');                   // 电话
+        $branchId = get_value($params, 'branch_id');            // 分店id
+        $custId = get_value($params, 'custId');                 // 业务员id
 
         $where = array();
         if($start_time!='') {
@@ -33,7 +35,13 @@ class recept_regist_model extends MY_Model {
             $where[] = array('name', $name, 'like');
         }
         if($phone!='') {
-            $where[] = array('phone', $phone);
+            $where[] = array('phone', $phone, 'like');
+        }
+        if($branchId!=-1) {
+            $where[] = array('branchId', $branchId);
+        }
+        if($custId!='') {
+            $where[] = array('custId', $custId);
         }
 
         if(count($order)==0) {
@@ -41,8 +49,25 @@ class recept_regist_model extends MY_Model {
         }
         $datas = $this->db->get_page($this->table, $this->fields, $where, $order, $page);
         $this->load->model('sys/user_model', 'user_model');
+        $this->load->model('sys/branch_model', 'branch_model');
         $CI = &get_instance();
         foreach($datas['rows'] as $k=>$v) {
+            // 分店信息
+            $branch_info = $CI->branch_model->get_name_by_id($v['branchId']);
+            if($branch_info!='') {
+                $datas['rows'][$k]['branch_name'] = $branch_info;
+            } else {
+                $datas['rows'][$k]['branch_name'] = '';
+            }
+
+            // 业务员信息
+            $userinfo = $CI->user_model->get_userinfo_by_id($v['custId']);
+            if(count($userinfo)>0) {
+                $datas['rows'][$k]['cust_name'] = $userinfo['user_name'];
+            } else {
+                $datas['rows'][$k]['cust_name'] = '';
+            }
+
             // 创建记录用户名
             $create_user_info = $CI->user_model->get_userinfo_by_id($v['create_user_id']);
             if($create_user_info) {
@@ -99,6 +124,28 @@ class recept_regist_model extends MY_Model {
                             '<td class="dv-label">姓名: </td>' .
                             '<td>' . $rows[0]['name'] . '</td>' .
                         '</tr>';
+            }
+            if($rows[0]['branchId']>0) {
+                $this->load->model('sys/branch_model', 'branch_model');
+                $CI = &get_instance();
+                $branch_info = $CI->branch_model->get_name_by_id($rows[0]['branchId']);
+                if($branch_info!='') {
+                    $str .= '<tr>' .
+                            '<td class="dv-label">所属分店: </td>' .
+                            '<td>' . $branch_info . '</td>' .
+                        '</tr>';
+                }
+            }
+            if($rows[0]['custId']>0) {
+                $this->load->model('sys/user_model', 'user_model');
+                $CI = &get_instance();
+                $userinfo = $CI->user_model->get_userinfo_by_id($rows[0]['custId']);
+                if(count($userinfo)>0) {
+                    $str .= '<tr>' .
+                            '<td class="dv-label">所属业务员: </td>' .
+                            '<td>' . $userinfo['user_name'] . '</td>' .
+                        '</tr>';
+                }
             }
             if($rows[0]['age']!='') {
                 $str .= '<tr>' .
@@ -306,6 +353,18 @@ class recept_regist_model extends MY_Model {
             'drugs_used'            => get_value($info, 'drugs_used'),
             'update_user_id'        => $this->session->userdata('user_id'),
             'update_time'           => time()
+        );
+        $where = array('id'=>$id);
+        $this->db->update($this->table, $data, $where);
+        return $this->create_result(true, 0, $where);
+    }
+
+
+    public function updateSale($id, $info) {
+        $data = array(
+            'custId'            => get_value($info, 'custId'),
+            'update_user_id'    => $this->session->userdata('user_id'),
+            'update_time'       => time()
         );
         $where = array('id'=>$id);
         $this->db->update($this->table, $data, $where);

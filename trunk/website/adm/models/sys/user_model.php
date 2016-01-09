@@ -121,6 +121,7 @@ class user_model extends MY_Model {
         return $this->create_result(true, 0, '密码修改成功');
     }
 
+
     public function get_userinfo_by_id($user_id) {
         $query = $this->db->get_where($this->table, array('user_id'=>$user_id));
         $result = $query->result_array();
@@ -129,5 +130,19 @@ class user_model extends MY_Model {
         } else {
             return false;
         }
+    }
+
+
+    public function get_list() {
+        $fields = 'user_id, user_name, true_name, bid, uposition, is_admin, create_uname, create_time';
+        $result = $this->db->get_list($this->table, $fields);
+        $this->load->model('sys/branch_model', 'branch_model');
+        $CI = &get_instance();
+        foreach($result['rows'] as $k=>$v) {
+            if($bname = $CI->branch_model->get_name_by_id($v['bid'])) {
+                $result['rows'][$k]['bname'] = $bname;
+            }
+        }
+        return $result['rows'];
     }
 }

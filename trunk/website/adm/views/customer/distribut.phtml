@@ -6,7 +6,7 @@
             'css'=>array(),
             'js' =>array('jquery.easyui.extension/datagrid-detailview'),
         ));
-        $ctrl_url = base_url('customer/recept_regist');
+        $ctrl_url = base_url('customer/distribut');
     ?>
     <style>
     .split-line {
@@ -29,7 +29,7 @@
     </style>
 </head>
 <body>
-    <div id="p-dg" class="easyui-panel" title="接待登记管理" fit="true" border="false">
+    <div id="p-dg" class="easyui-panel" title="客户分配管理" fit="true" border="false">
         <table id="dg" class="easyui-datagrid" title=""
                fit="true" border="false" plain="true"
                toolbar="#toolbar" multiSort="true"
@@ -55,14 +55,8 @@
         <div id="toolbar" style="padding:2px 3px;">
             <form id="fm-search" method="post" novalidate>
                 <div style="margin:3px 0;">
-                    <a class="easyui-linkbutton" iconCls="icon-add"    plain="true" onclick="open_insert()" title="insert">添加</a>
                     <a class="easyui-linkbutton" iconCls="icon-edit"   plain="true" onclick="open_update()" title="update">修改</a>
                     <span class="split-line">|</span>
-                    创建时间：
-                    <input class="easyui-datetimebox" style="width:150px;" name="start_time" id="start_time">
-                    到
-                    <input class="easyui-datetimebox" style="width:150px;" name="end_time" id="end_time">
-                    <br/>
                     所属分店：
                     <select id="branch_id" class="easyui-combobox" style="width:200px;" name="branch_id" data-options="valueField:'id',textField:'name'" panelHeight="auto" >
                     </select>
@@ -77,9 +71,7 @@
         </div>
     </div>
 
-    <div id="p-edit" class="easyui-panel" title="接待登记编辑" fit="true" border="false">
-        <iframe id="manage_edit" style="width:100%;height:99%;border:0;" frameborder="0" scrolling="true" ></iframe>
-    </div>
+    <?php $this->load->view('customer/distribut_edit');?>
 
     <script type="text/javascript">
     $(function() {
@@ -142,40 +134,19 @@
         })
     });
 
-    // 切换主面板
-    function change_panel($name) {
-        if($name=='dg') {
-            $('#p-dg').panel('open');
-            $('#p-edit').panel('close');
-        } else {
-            $('#p-dg').panel('close');
-            $('#p-edit').panel('open');
-        }
-    }
-
-    // 刷新面板
-    function dg_reload(){
-        $('#dg').datagrid('reload');
-    }
-
-    // 打开新增窗口
-    function open_insert() {
-        var url='<?php echo $ctrl_url.'/info/'?>' + '0';
-        $('#manage_edit').attr('src',url);
-        change_panel('edit');
-    }
-
-    // 修改记录
-    function open_update() {
+    function open_update(){
         var info = $('#dg').datagrid('getSelected');
-        if(info==null) {
-            $.messager.alert('操作提示', '请选择需要修改的记录！', 'warning');
+        if(info==null){
+            $.messager.alert('操作提示','请选择需要编辑的记录!','warning');
             return;
         }
-        cur_tips_id = info['id'];
-        var url = '<?php echo $ctrl_url.'/info/'?>' + cur_tips_id;
-        $('#manage_edit').attr('src',url);
-        change_panel('edit');
+        load_sale(info.custId);
+        var fm_data = {
+            actionxm: 'updateSale',
+            id: info.id
+        };
+        $('#fm-edit').form('load', fm_data);
+        $('#dlg-edit').dialog('setTitle', '客户分配').dialog('open');
     }
 
     // 搜索操作
@@ -183,6 +154,23 @@
         var fm_data = $('#fm-search').form('getData');
         $('#dg').datagrid('options').queryParams = {actionxm:'search', rs:fm_data};
         $('#dg').datagrid('reload');
+    }
+
+    function do_save(){
+        $('#fm-edit').form('submit',{
+            onSubmit: function(){
+                return $(this).form('validate');
+            },
+            success: function(result){
+                var result = eval('('+result+')');
+                if (result.success==false){
+                    $.messager.alert('操作提示',result.data,'warning');
+                } else {
+                    $('#dlg-edit').dialog('close');
+                    $('#dg').datagrid('reload');
+                }
+            }
+        });
     }
 
     // 格式化性别
@@ -200,6 +188,29 @@
                 break;
         }
         return rtn;
+    }
+
+    function load_sale(id) {
+        // 加载模块名称下拉框
+        $.ajax({
+            url: '<?php echo base_url("sys/user/get?actionxm=get_list"); ?>',
+            type: 'get',
+            datatype: 'json',
+            success: function(result) {
+                var data = $.parseJSON(result);
+                var new_data = new Array();
+                $.each(data, function(i, n) {
+                    if(n.user_id==id) {
+                        console.log(n);
+                        console.log(id);
+                        new_data.push({"name":n.user_name+'['+n.bname+']', 'id': n.user_id, "selected":true});
+                    } else {
+                        new_data.push({"name":n.user_name+'['+n.bname+']', 'id': n.user_id});
+                    }
+                });
+                $("#selectSale").combobox("loadData", new_data);
+            }
+        });
     }
     </script>
 </body>

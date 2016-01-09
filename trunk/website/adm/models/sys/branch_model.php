@@ -107,4 +107,17 @@ class branch_model extends MY_Model {
             return false;
         }
     }
+
+
+    /**
+     * 返回分店列表
+     * @return [type] [description]
+     */
+    public function get_list() {
+        $query = $this->db->select($this->fields)->order_by('pid asc, sort asc')->get($this->table);
+        $list = $query->result_array();
+        $tree = array();
+        create_tree_list($list, $tree, 0, 0, array('id_key'=>'id', 'pid_key'=>'pid'));
+        return array_values($tree);
+    }
 }

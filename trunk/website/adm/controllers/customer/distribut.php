@@ -1,11 +1,11 @@
 <?php
 /**
- * 客户跟进——接待登记控制器
+ * 客户跟进——客户分配控制器
  *
  * @author linzequan <lowkey361@gmail.com>
  *
  */
-class recept_regist extends MY_Controller {
+class distribut extends MY_Controller {
 
     public function __construct() {
         parent::__construct();
@@ -14,7 +14,7 @@ class recept_regist extends MY_Controller {
 
 
     public function index() {
-        $this->load->view('customer/recept_regist');
+        $this->load->view('customer/distribut');
     }
 
 
@@ -66,11 +66,6 @@ class recept_regist extends MY_Controller {
                 $id = $this->input->post('id');
                 $info = $this->get_request();
                 $result = $this->def_model->update($id, $info);
-                break;
-            case 'updateSale':
-                $id = $this->input->post('id');
-                $info = $this->get_request();
-                $result = $this->def_model->updateSale($id, $info);
                 break;
         }
         $this->output_result($result);

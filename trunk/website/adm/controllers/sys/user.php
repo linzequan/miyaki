@@ -28,6 +28,9 @@ class user extends MY_Controller {
                 $page   = get_datagrid_page();
                 $result = $this->def_model->search($params, $order, $page);
                 break;
+            case 'get_list':
+                $result = $this->def_model->get_list();
+                break;
         }
         echo json_encode($result);
     }
