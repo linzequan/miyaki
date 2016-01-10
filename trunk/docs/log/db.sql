@@ -87,3 +87,42 @@ alter table `recept_regist` add `custId` int not null comment '业务员id';
 -- linzequan 20160109
 -- 接待登记信息表添加分店id
 alter table `recept_regist` add `branchId` int not null comment '分店id';
+
+
+-- linzequan 20160109
+-- 添加售后服务跟进信息表
+create table if not exists `aftersale_follow` (
+    `id` int not null auto_increment comment '自增id',
+    `custId` int not null comment '客户id',
+    `week` int comment '第几周',
+    `day` int comment '第几日',
+    `weight` float default 0 comment '体重，单位kg',
+    `test_paper` varchar(256) default '' comment '试纸',
+    `blood_pressure` varchar(16) default '' comment '血压',
+    `blood_sugar` varchar(16) default '' comment '血糖',
+    `sleep` varchar(256) default '' comment '睡眠',
+    `defecation` varchar(256) default '' comment '大小便',
+    `zc_time` int(11) default 0 comment '早餐时间',
+    `zc_food` varchar(1024) default '' comment '早餐食物',
+    `zcjc_time` int(11) default 0 comment '早餐加餐时间',
+    `zcjc_food` varchar(1024) default '' comment '早餐加餐食物',
+    `wc_time` int(11) default 0 comment '午餐时间',
+    `wc_food` varchar(1024) default '' comment '午餐食物',
+    `wcjc_time` int(11)default 0 comment '午餐加餐时间',
+    `wcjc_food` varchar(1024) default '' comment '午餐加餐食物',
+    `wancan_time` int(11) default 0 comment '晚餐时间',
+    `wancan_food` varchar(1024) default '' comment '晚餐食物',
+    `wancanjc_time` int(11) default 0 comment '晚餐加餐时间',
+    `wancanjc_food` varchar(1024) default '' comment '晚餐加餐食物',
+    `wxc_time` int(11) default 0 comment '五行操时间',
+    `wxc_duration` int default 0 comment '五行操时长，单位分钟',
+    `pj_time` int(11) default 0 comment '泡脚时间',
+    `other_sport` varchar(1024) default '' comment '其他运动',
+    `drink` float default 0 comment '饮水，单位ml',
+    `expirence` varchar(1024) default '' comment '体会',
+    `create_user_id` int comment '创建用户id',
+    `create_time` int(11) comment '创建时间戳',
+    `update_user_id` int comment '更新用户id',
+    `update_time` int(11) comment '更新时间戳',
+    primary key (`id`)
+) engine = myisam character set utf8 collate utf8_general_ci comment = '售后服务跟进信息表';
