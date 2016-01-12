@@ -126,3 +126,20 @@ create table if not exists `aftersale_follow` (
     `update_time` int(11) comment '更新时间戳',
     primary key (`id`)
 ) engine = myisam character set utf8 collate utf8_general_ci comment = '售后服务跟进信息表';
+
+
+-- linzequan 20160113
+-- 添加套餐数据表
+create table if not exists `package` (
+    `id` int not null auto_increment comment '自增id',
+    `name` varchar(128) not null comment '套餐名称',
+    `cyclic` varchar(128) comment '调理周期',
+    `content` text comment '调理内容',
+    `material` text comment '需要客户物资领用表（试纸、食物称、体重称、五行操、音乐）',
+    `prize` float comment '价格',
+    `create_user_id` int comment '创建用户id',
+    `create_time` int(11) comment '创建时间戳',
+    `update_user_id` int comment '更新用户id',
+    `update_time` int(11) comment '更新时间戳',
+    primary key (`id`)
+) engine = myisam character set utf8 collate utf8_general_ci comment = '套餐数据表';
