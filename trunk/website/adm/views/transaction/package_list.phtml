@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <?php
+        $this->load->view('/public/linker',array(
+            'css'=>array(),
+            'js' =>array('jquery.easyui.extension/datagrid-detailview'),
+        ));
+        $ctrl_url = base_url('transaction/package_list');
+    ?>
+    <style>
+    .split-line {
+        color: #ccc;
+    }
+    .datagrid-sort-asc .datagrid-sort-icon, .datagrid-sort-desc .datagrid-sort-icon {
+        padding: 0px;
+    }
+    .dv-table td {
+        border:0;
+    }
+    .dv-label {
+        font-weight: bold;
+        color: #15428B;
+        width: 120px;
+    }
+    .dv-table td {
+        padding-bottom: 8px;
+    }
+    </style>
+</head>
+<body>
+    <div id="p-dg" class="easyui-panel" title="套餐列表管理" fit="true" border="false">
+        <table id="dg" class="easyui-datagrid" title=""
+               fit="true" border="false" plain="true"
+               toolbar="#toolbar" multiSort="true"
+               rownumbers="false" pagination="true" pageList="[50,100,150,200]" pageSize="50"
+               singleSelect="true" remote>
+            <thead>
+                <tr>
+                    <th data-options="sortable:true,field:'id',width:50">编号</th>
+                    <th data-options="sortable:true,field:'name',width:120">套餐名称</th>
+                    <th data-options="sortable:true,field:'cyclic',width:60">调理周期</th>
+                    <th data-options="sortable:true,field:'content',width:150">调理内容</th>
+                    <th data-options="sortable:true,field:'material',width:150">需要客户物资领用表</th>
+                    <th data-options="sortable:true,field:'prize',width:50">价格</th>
+                    <th data-options="sortable:true,field:'create_user_name',width:80">创建人</th>
+                    <th data-options="sortable:true,field:'create_time',width:130">创建时间</th>
+                    <th data-options="sortable:true,field:'update_user_name',width:80">更新人</th>
+                    <th data-options="sortable:true,field:'update_time',width:130">更新时间</th>
+                </tr>
+            </thead>
+        </table>
+
+        <div id="toolbar" style="padding:2px 3px;">
+            <form id="fm-search" method="post" novalidate>
+                <div style="margin:3px 0;">
+                    <a class="easyui-linkbutton" iconCls="icon-add"    plain="true" onclick="open_insert()" title="insert">添加</a>
+                    <a class="easyui-linkbutton" iconCls="icon-edit"   plain="true" onclick="open_update()" title="update">修改</a>
+                    <span class="split-line">|</span>
+                    创建时间：
+                    <input class="easyui-datetimebox" style="width:150px;" name="start_time" id="start_time">
+                    到
+                    <input class="easyui-datetimebox" style="width:150px;" name="end_time" id="end_time">
+                    套餐名称：
+                    <input id="name" class="easyui-textbox" style="width:100px" name="name">
+                    价格：
+                    <input id="prize" class="easyui-textbox" style="width:50px" name="prize">
+                    状态：
+                    <select id="available" class="easyui-combobox" style="width:80px;" name="available" data-options="valueField:'id', textField:'name'" panelHeight="auto" >
+                    </select>
+                    <span class="split-line">|</span>
+                    <a class="easyui-linkbutton" iconCls="icon-search" onclick="do_search()" style="width:60px">搜索</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="p-edit" class="easyui-panel" title="接待登记编辑" fit="true" border="false">
+        <iframe id="manage_edit" style="width:100%;height:99%;border:0;" frameborder="0" scrolling="true" ></iframe>
+    </div>
+
+    <script type="text/javascript">
+    $(function() {
+        $('#dg').datagrid({
+            view: detailview,
+            detailFormatter:function(index,row){
+                return '<div class="ddv" style="padding:10px 0;"></div>';
+            },
+            onExpandRow: function(index,row){
+                var ddv = $(this).datagrid('getRowDetail',index).find('div.ddv');
+                ddv.panel({
+                    border:false,
+                    cache:false,
+                    href: "<?php echo $ctrl_url.'/get?actionxm=details'; ?>&id=" + row.id,
+                    onLoad:function(){
+                        $('#dg').datagrid('fixDetailRowHeight',index);
+                    }
+                });
+                $('#dg').datagrid('fixDetailRowHeight',index);
+            }
+        });
+
+        window.setTimeout(function() {
+            var obj = new Object();
+            obj.actionxm = 'search';
+            obj.rs = $('#fm-search').form('getData');
+            $('#dg').datagrid({
+                url: "<?php echo $ctrl_url.'/get'?>",
+                method: 'post',
+                queryParams: obj
+            });
+        }, 100);
+
+        var comboData = [{'name':'可用', 'id':0}, {'name':'不可用', 'id':1}, {'name':'所有', 'id':2}];
+        $("#available").combobox("loadData", comboData);
+    });
+
+    // 切换主面板
+    function change_panel($name) {
+        if($name=='dg') {
+            $('#p-dg').panel('open');
+            $('#p-edit').panel('close');
+        } else {
+            $('#p-dg').panel('close');
+            $('#p-edit').panel('open');
+        }
+    }
+
+    // 刷新面板
+    function dg_reload(){
+        $('#dg').datagrid('reload');
+    }
+
+    // 打开新增窗口
+    function open_insert() {
+        var url='<?php echo $ctrl_url.'/info/'?>' + '0';
+        $('#manage_edit').attr('src', url);
+        change_panel('edit');
+    }
+
+    // 修改记录
+    function open_update() {
+        var info = $('#dg').datagrid('getSelected');
+        if(info==null) {
+            $.messager.alert('操作提示', '请选择需要修改的记录！', 'warning');
+            return;
+        }
+        cur_tips_id = info['id'];
+        var url = '<?php echo $ctrl_url.'/info/'?>' + cur_tips_id;
+        $('#manage_edit').attr('src',url);
+        change_panel('edit');
+    }
+
+    // 搜索操作
+    function do_search() {
+        var fm_data = $('#fm-search').form('getData');
+        $('#dg').datagrid('options').queryParams = {actionxm:'search', rs:fm_data};
+        $('#dg').datagrid('reload');
+    }
+    </script>
+</body>
+</html>
+

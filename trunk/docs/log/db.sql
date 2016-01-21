@@ -143,3 +143,8 @@ create table if not exists `package` (
     `update_time` int(11) comment '更新时间戳',
     primary key (`id`)
 ) engine = myisam character set utf8 collate utf8_general_ci comment = '套餐数据表';
+
+
+-- linzequan 20160121
+-- 套餐数据表添加套餐是否可用选项
+alter table `package` add `available` int(2) default 0 comment '套餐是否可用，0可用，1不可用。默认为0可用';
