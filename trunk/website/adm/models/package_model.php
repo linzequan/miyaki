@@ -170,4 +170,24 @@ class package_model extends MY_Model {
         return $this->create_result(true, 0, $where);
     }
 
+
+    public function getAllPackage() {
+        $query = $this->db->select($this->fields)->get($this->table);
+        if($query->num_rows()<=0) {
+            return array();
+        }
+        $result = $query->result_array();
+        return $result;
+    }
+
+
+    public function getPackageJSON() {
+        $packages = $this->getAllPackage();
+        $packageArr = array();
+        foreach($packages as $k=>$v) {
+            $packageArr[] = ['name'=>$v['name'], 'id'=>$v['id']];
+        }
+        return $packageArr;
+    }
+
 }

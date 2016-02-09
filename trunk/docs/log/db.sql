@@ -148,3 +148,21 @@ create table if not exists `package` (
 -- linzequan 20160121
 -- 套餐数据表添加套餐是否可用选项
 alter table `package` add `available` int(2) default 0 comment '套餐是否可用，0可用，1不可用。默认为0可用';
+
+
+-- linzequan 20160121
+-- 添加套餐订单数据表
+create table if not exists `package_order` (
+    `id` int not null auto_increment comment '自增id',
+    `pid` int not null comment '套餐id',
+    `uid` int not null comment '用户id',
+    `custId` int not null comment '业务员id',
+    `discount` int default 100 comment '折扣',
+    `care_time` int(11) comment '开始调理时间',
+    `food_num` int comment '餐包数量',
+    `create_user_id` int comment '创建用户id',
+    `create_time` int(11) comment '创建时间戳',
+    `update_user_id` int comment '更新用户id',
+    `update_time` int(11) comment '更新时间戳',
+    primary key (`id`)
+) engine = myisam character set utf8 collate utf8_general_ci comment = '套餐订单数据表';

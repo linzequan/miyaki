@@ -1,14 +1,14 @@
 <?php
 /**
- * 接待登记管理模型
+ * 服务跟进管理模型
  *
  * @author linzequan <lowkey361@gmail.com>
  *
  */
-class recept_regist_model extends MY_Model {
+class follow_model extends MY_Model {
 
-    private $table = 'recept_regist';
-    private $fields = 'id, name, age, sex, phone, address, member_count, remarks, height, weight, blood_pressure, blood_sugar, fat_percent, BNI, visceral_fat, basal_metabolism, body_age, waistline, hipline, thigh_circumference, manage_aim, health_status, drugs_used, member_status, create_user_id, create_time, update_user_id, update_time, branchId, custId';
+    private $table = 'follow';
+    private $fields = 'id, custId, week, day, weight, test_paper, blood_pressure, blood_sugar, sleep(, defecation, zc_time, zc_food, zcjc_time, zcjc_food, wc_time, wc_food, wcjc_time, wcjc_food, wancan_time, wancan_food, wancanjc_time, wancanjc_food, wxc_time, wxc_duration, pj_time, other_sport, drink, expirence, create_user_id, create_time, update_user_id, update_time';
 
     public function __construct() {
         parent::__construct();
@@ -389,15 +389,5 @@ class recept_regist_model extends MY_Model {
             $customerTree .= '<option value="' . $v['id'] . '">' . $v['phone'] . '(' . $v['name'] . ')</option>';
         }
         return $customerTree;
-    }
-
-
-    public function getCustomerJSON() {
-        $customers = $this->getAllUser();
-        $customerArr = array();
-        foreach($customers as $k=>$v) {
-            $customerArr[] = ['name'=>$v['phone'].'('.$v['name'].')', 'id'=>$v['id']];
-        }
-        return $customerArr;
     }
 }
