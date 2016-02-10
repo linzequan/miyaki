@@ -137,178 +137,154 @@ class follow_model extends MY_Model {
         if(count($rows)>0) {
             $str = '<table class="dv-table" border="0" style="width:100%;">' .
                         '<tr>' .
+                            '<td class="dv-label" colspan="2" style="text-align:center;"><h3>三养健康管理日志</h3> <h5>[第 ' . $rows[0]['week'] .' 周 - 第 ' . $rows[0]['day'] . ' 天]</h5></td>' .
+                        '</tr>' .
+                        '<tr>' .
                             '<td class="dv-label">编号: </td>' .
                             '<td>' . $rows[0]['id'] . '</td>' .
                         '</tr>';
-            if($rows[0]['name']!='') {
-                $str .= '<tr>' .
-                            '<td class="dv-label">姓名: </td>' .
-                            '<td>' . $rows[0]['name'] . '</td>' .
-                        '</tr>';
-            }
-            if($rows[0]['branchId']>0) {
-                $this->load->model('sys/branch_model', 'branch_model');
-                $CI = &get_instance();
-                $branch_info = $CI->branch_model->get_name_by_id($rows[0]['branchId']);
-                if($branch_info!='') {
-                    $str .= '<tr>' .
-                            '<td class="dv-label">所属分店: </td>' .
-                            '<td>' . $branch_info . '</td>' .
-                        '</tr>';
-                }
-            }
-            if($rows[0]['custId']>0) {
-                $this->load->model('sys/user_model', 'user_model');
-                $CI = &get_instance();
-                $userinfo = $CI->user_model->get_userinfo_by_id($rows[0]['custId']);
-                if(count($userinfo)>0) {
-                    $str .= '<tr>' .
-                            '<td class="dv-label">所属业务员: </td>' .
-                            '<td>' . $userinfo['user_name'] . '</td>' .
-                        '</tr>';
-                }
-            }
-            if($rows[0]['age']!='') {
-                $str .= '<tr>' .
-                            '<td class="dv-label">年龄: </td>' .
-                            '<td>' . $rows[0]['age'] . '</td>' .
-                        '</tr>';
-            }
-            if($rows[0]['sex']!='') {
-                switch($rows[0]['sex']) {
-                    case 1:
-                        $sex_name = '男';
-                        break;
-                    case 2:
-                        $sex_name = '女';
-                        break;
-                    default:
-                        $sex_name = '未知';
-                        break;
-                }
-                $str .= '<tr>' .
-                            '<td class="dv-label">性别: </td>' .
-                            '<td>' . $sex_name . '</td>' .
-                        '</tr>';
-            }
-            if($rows[0]['phone']!='') {
-                $str .= '<tr>' .
-                            '<td class="dv-label">电话: </td>' .
-                            '<td>' . $rows[0]['phone'] . '</td>' .
-                        '</tr>';
-            }
-            if($rows[0]['address']!='') {
-                $str .= '<tr>' .
-                            '<td class="dv-label">地址: </td>' .
-                            '<td>' . $rows[0]['address'] . '</td>' .
-                        '</tr>';
-            }
-            if($rows[0]['member_count']!='') {
-                $str .= '<tr>' .
-                            '<td class="dv-label">家庭成员数量: </td>' .
-                            '<td>' . $rows[0]['member_count'] . '</td>' .
-                        '</tr>';
-            }
-            if($rows[0]['remarks']!='') {
-                $str .= '<tr>' .
-                            '<td class="dv-label">备注: </td>' .
-                            '<td>' . $rows[0]['remarks'] . '</td>' .
-                        '</tr>';
-            }
-            if($rows[0]['height']!='') {
-                $str .= '<tr>' .
-                            '<td class="dv-label">身高: </td>' .
-                            '<td>' . $rows[0]['height'] . '</td>' .
-                        '</tr>';
-            }
             if($rows[0]['weight']!='') {
                 $str .= '<tr>' .
-                            '<td class="dv-label">体重: </td>' .
-                            '<td>' . $rows[0]['weight'] . '</td>' .
+                            '<td class="dv-label">体重（KG）: </td>' .
+                            '<td>' . $rows[0]['weight']. '</td>' .
+                        '</tr>';
+            }
+            if($rows[0]['test_paper']!='') {
+                $str .= '<tr>' .
+                            '<td class="dv-label">试纸: </td>' .
+                            '<td>' . $rows[0]['test_paper']. '</td>' .
                         '</tr>';
             }
             if($rows[0]['blood_pressure']!='') {
                 $str .= '<tr>' .
                             '<td class="dv-label">血压: </td>' .
-                            '<td>' . $rows[0]['blood_pressure'] . '</td>' .
+                            '<td>' . $rows[0]['blood_pressure']. '</td>' .
                         '</tr>';
             }
             if($rows[0]['blood_sugar']!='') {
                 $str .= '<tr>' .
                             '<td class="dv-label">血糖: </td>' .
-                            '<td>' . $rows[0]['blood_sugar'] . '</td>' .
+                            '<td>' . $rows[0]['blood_sugar']. '</td>' .
                         '</tr>';
             }
-            if($rows[0]['fat_percent']!='') {
+            if($rows[0]['sleep']!='') {
                 $str .= '<tr>' .
-                            '<td class="dv-label">脂肪率: </td>' .
-                            '<td>' . $rows[0]['fat_percent'] . '</td>' .
+                            '<td class="dv-label">睡眠: </td>' .
+                            '<td>' . $rows[0]['sleep']. '</td>' .
                         '</tr>';
             }
-            if($rows[0]['BNI']!='') {
+            if($rows[0]['defecation']!='') {
                 $str .= '<tr>' .
-                            '<td class="dv-label">BNI: </td>' .
-                            '<td>' . $rows[0]['BNI'] . '</td>' .
+                            '<td class="dv-label">大小便: </td>' .
+                            '<td>' . $rows[0]['defecation']. '</td>' .
                         '</tr>';
             }
-            if($rows[0]['visceral_fat']!=0) {
+            if($rows[0]['zc_time']!='') {
                 $str .= '<tr>' .
-                            '<td class="dv-label">内脏脂肪: </td>' .
-                            '<td>' . $rows[0]['visceral_fat'] . '</td>' .
+                            '<td class="dv-label">早餐时间: </td>' .
+                            '<td>' . $rows[0]['zc_time']. '</td>' .
                         '</tr>';
             }
-            if($rows[0]['basal_metabolism']!='') {
+            if($rows[0]['zc_food']!='') {
                 $str .= '<tr>' .
-                            '<td class="dv-label">基础代谢: </td>' .
-                            '<td>' . $rows[0]['basal_metabolism'] . '</td>' .
+                            '<td class="dv-label">早餐食物: </td>' .
+                            '<td>' . $rows[0]['zc_food']. '</td>' .
                         '</tr>';
             }
-            if($rows[0]['body_age']!=0) {
+            if($rows[0]['zcjc_time']!='') {
                 $str .= '<tr>' .
-                            '<td class="dv-label">身体年龄: </td>' .
-                            '<td>' . $rows[0]['body_age'] . '</td>' .
+                            '<td class="dv-label">早餐加餐时间: </td>' .
+                            '<td>' . $rows[0]['zcjc_time']. '</td>' .
                         '</tr>';
             }
-            if($rows[0]['waistline']!='') {
+            if($rows[0]['zcjc_food']!='') {
                 $str .= '<tr>' .
-                            '<td class="dv-label">腰围: </td>' .
-                            '<td>' . $rows[0]['waistline'] . '</td>' .
+                            '<td class="dv-label">早餐加餐食物: </td>' .
+                            '<td>' . $rows[0]['zcjc_food']. '</td>' .
                         '</tr>';
             }
-            if($rows[0]['hipline']!='') {
+            if($rows[0]['wc_time']!='') {
                 $str .= '<tr>' .
-                            '<td class="dv-label">臀围: </td>' .
-                            '<td>' . $rows[0]['hipline'] . '</td>' .
+                            '<td class="dv-label">午餐时间: </td>' .
+                            '<td>' . $rows[0]['wc_time']. '</td>' .
                         '</tr>';
             }
-            if($rows[0]['thigh_circumference']!='') {
+            if($rows[0]['wc_food']!='') {
                 $str .= '<tr>' .
-                            '<td class="dv-label">大腿围: </td>' .
-                            '<td>' . $rows[0]['thigh_circumference'] . '</td>' .
+                            '<td class="dv-label">午餐食物: </td>' .
+                            '<td>' . $rows[0]['wc_food']. '</td>' .
                         '</tr>';
             }
-            if($rows[0]['manage_aim']!='') {
+            if($rows[0]['wcjc_time']!='') {
                 $str .= '<tr>' .
-                            '<td class="dv-label">管理目标: </td>' .
-                            '<td>' . $rows[0]['manage_aim'] . '</td>' .
+                            '<td class="dv-label">午餐加餐时间: </td>' .
+                            '<td>' . $rows[0]['wcjc_time']. '</td>' .
                         '</tr>';
             }
-            if($rows[0]['health_status']!='') {
+            if($rows[0]['wcjc_food']!='') {
                 $str .= '<tr>' .
-                            '<td class="dv-label">健康现状描述（病症）: </td>' .
-                            '<td>' . $rows[0]['health_status'] . '</td>' .
+                            '<td class="dv-label">午餐加餐食物: </td>' .
+                            '<td>' . $rows[0]['wcjc_food']. '</td>' .
                         '</tr>';
             }
-            if($rows[0]['drugs_used']!='') {
+            if($rows[0]['wancan_time']!='') {
                 $str .= '<tr>' .
-                            '<td class="dv-label">所用药物或其他（药物名称、用量）: </td>' .
-                            '<td>' . $rows[0]['drugs_used'] . '</td>' .
+                            '<td class="dv-label">晚餐时间: </td>' .
+                            '<td>' . $rows[0]['wancan_time']. '</td>' .
                         '</tr>';
             }
-            if($rows[0]['member_status']!='') {
+            if($rows[0]['wancan_food']!='') {
                 $str .= '<tr>' .
-                            '<td class="dv-label">家庭成员现状: </td>' .
-                            '<td>' . $rows[0]['member_status'] . '</td>' .
+                            '<td class="dv-label">晚餐食物: </td>' .
+                            '<td>' . $rows[0]['wancan_food']. '</td>' .
+                        '</tr>';
+            }
+            if($rows[0]['wancanjc_time']!='') {
+                $str .= '<tr>' .
+                            '<td class="dv-label">晚餐加餐时间: </td>' .
+                            '<td>' . $rows[0]['wancanjc_time']. '</td>' .
+                        '</tr>';
+            }
+            if($rows[0]['wancanjc_food']!='') {
+                $str .= '<tr>' .
+                            '<td class="dv-label">晚餐加餐食物: </td>' .
+                            '<td>' . $rows[0]['wancanjc_food']. '</td>' .
+                        '</tr>';
+            }
+            if($rows[0]['wxc_time']!='') {
+                $str .= '<tr>' .
+                            '<td class="dv-label">五行操时间: </td>' .
+                            '<td>' . $rows[0]['wxc_time']. '</td>' .
+                        '</tr>';
+            }
+            if($rows[0]['wxc_duration']!='') {
+                $str .= '<tr>' .
+                            '<td class="dv-label">五行操时长（分钟）: </td>' .
+                            '<td>' . $rows[0]['wxc_duration']. '</td>' .
+                        '</tr>';
+            }
+            if($rows[0]['pj_time']!=0) {
+                $str .= '<tr>' .
+                            '<td class="dv-label">泡脚时间（分钟）: </td>' .
+                            '<td>' . $rows[0]['pj_time']. '</td>' .
+                        '</tr>';
+            }
+            if($rows[0]['other_sport']!='') {
+                $str .= '<tr>' .
+                            '<td class="dv-label">其他运动: </td>' .
+                            '<td>' . $rows[0]['other_sport']. '</td>' .
+                        '</tr>';
+            }
+            if($rows[0]['drink']!='') {
+                $str .= '<tr>' .
+                            '<td class="dv-label">饮水（ML）: </td>' .
+                            '<td>' . $rows[0]['drink']. '</td>' .
+                        '</tr>';
+            }
+            if($rows[0]['expirence']!='') {
+                $str .= '<tr>' .
+                            '<td class="dv-label">体会: </td>' .
+                            '<td>' . $rows[0]['expirence']. '</td>' .
                         '</tr>';
             }
             $str .= '</table>';
