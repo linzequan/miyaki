@@ -6,7 +6,7 @@
             'css'=>array(),
             'js' =>array('jquery.easyui.extension/datagrid-detailview'),
         ));
-        $ctrl_url = base_url('customer/recept_regist');
+        $ctrl_url = base_url('aftersale/follow');
     ?>
     <style>
     .split-line {
@@ -29,7 +29,7 @@
     </style>
 </head>
 <body>
-    <div id="p-dg" class="easyui-panel" title="接待登记管理" fit="true" border="false">
+    <div id="p-dg" class="easyui-panel" title="服务跟进管理" fit="true" border="false">
         <table id="dg" class="easyui-datagrid" title=""
                fit="true" border="false" plain="true"
                toolbar="#toolbar" multiSort="true"
@@ -39,10 +39,7 @@
                 <tr>
                     <th data-options="sortable:true,field:'id',width:50">编号</th>
                     <th data-options="sortable:true,field:'name',width:80">姓名</th>
-                    <th data-options="sortable:true,field:'branch_name',width:80">所属分店</th>
                     <th data-options="sortable:true,field:'cust_name',width:80">所属业务员</th>
-                    <th data-options="sortable:true,field:'age',width:50">年龄</th>
-                    <th data-options="sortable:true,field:'sex',width:50" formatter="format_sex">性别</th>
                     <th data-options="sortable:true,field:'phone',width:100">电话</th>
                     <th data-options="sortable:true,field:'create_user_name',width:80">创建人</th>
                     <th data-options="sortable:true,field:'create_time',width:130">创建时间</th>
@@ -55,19 +52,15 @@
         <div id="toolbar" style="padding:2px 3px;">
             <form id="fm-search" method="post" novalidate>
                 <div style="margin:3px 0;">
-                    <a class="easyui-linkbutton" iconCls="icon-add"    plain="true" onclick="open_insert()" title="insert">添加</a>
-                    <a class="easyui-linkbutton" iconCls="icon-edit"   plain="true" onclick="open_update()" title="update">修改</a>
+                    <a class="easyui-linkbutton" iconCls="icon-edit"   plain="true" onclick="open_update()" title="update">跟进</a>
                     <span class="split-line">|</span>
-                    创建时间：
-                    <input class="easyui-datetimebox" style="width:150px;" name="start_time" id="start_time">
-                    到
-                    <input class="easyui-datetimebox" style="width:150px;" name="end_time" id="end_time">
-                    <br/>
-                    所属分店：
-                    <select id="branch_id" class="easyui-combobox" style="width:200px;" name="branch_id" data-options="valueField:'id',textField:'name'" panelHeight="auto" >
+                    记录日期：
+                    <input class="easyui-datebox" name="create_time" value="" style="width:120px;">
+                    所属业务员：
+                    <select id="cust_id" class="easyui-combobox" style="width:150px;" name="cust_id" data-options="valueField:'id',textField:'name'" panelHeight="auto" >
                     </select>
                     姓名：
-                    <input id="title" class="easyui-textbox" style="width:100px" name="name">
+                    <input id="name" class="easyui-textbox" style="width:100px" name="name">
                     电话：
                     <input id="title" class="easyui-textbox" style="width:100px" name="phone">
                     <span class="split-line">|</span>
@@ -77,7 +70,7 @@
         </div>
     </div>
 
-    <div id="p-edit" class="easyui-panel" title="接待登记编辑" fit="true" border="false">
+    <div id="p-edit" class="easyui-panel" title="服务跟进" fit="true" border="false">
         <iframe id="manage_edit" style="width:100%;height:99%;border:0;" frameborder="0" scrolling="true" ></iframe>
     </div>
 
@@ -113,33 +106,7 @@
             });
         }, 100);
 
-        // 加载模块名称下拉框
-        $.ajax({
-            url: '<?php echo base_url("sys/branch/get?actionxm=get_list"); ?>',
-            type: 'get',
-            datatype: 'json',
-            success: function(result) {
-                var data = $.parseJSON(result);
-                var new_data = new Array();
-                new_data.push({"name":"不限", "id":-1, "selected":true});
-                $.each(data, function(i, n) {
-                    if(n.is_leaf) {
-                        new_data.push({"name":'&nbsp;&nbsp;&nbsp;&nbsp;|-'+n.name, 'id': n.id});
-                    } else {
-                        new_data.push({"name":n.name, 'id': n.id});
-                    }
-                });
-                $("#branch_id").combobox("loadData", new_data);
-            }
-        });
-
-        $('#branch_id').combobox({
-            onSelect: function(node) {
-                console.log(node);
-                var n = node.name.replace(/&nbsp;/ig, '');
-                $('#branch_id').combobox('setText', n);
-            }
-        })
+        load_sale();
     });
 
     // 切换主面板
@@ -185,21 +152,22 @@
         $('#dg').datagrid('reload');
     }
 
-    // 格式化性别
-    function format_sex(value, row) {
-        var rtn = '';
-        switch(value) {
-            case '1':
-                rtn = '<span style="color:green;">男</span>';
-                break;
-            case '2':
-                rtn = '<span style="color:red;">女</span>';
-                break;
-            default:
-                rtn = '<span style="color:grey;">未知</span>';
-                break;
-        }
-        return rtn;
+    // 业务员列表
+    function load_sale() {
+        $.ajax({
+            url: '<?php echo base_url("sys/user/get?actionxm=get_list"); ?>',
+            type: 'get',
+            datatype: 'json',
+            success: function(result) {
+                var data = $.parseJSON(result);
+                var new_data = new Array();
+                new_data.push({'name':'--不限--', 'id': -1, 'selected': true});
+                $.each(data, function(i, n) {
+                    new_data.push({"name":n.user_name+'['+n.bname+']', 'id': n.user_id});
+                });
+                $("#cust_id").combobox("loadData", new_data);
+            }
+        });
     }
     </script>
 </body>

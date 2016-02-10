@@ -8,7 +8,9 @@
 class follow_model extends MY_Model {
 
     private $table = 'follow';
+    private $order_table = 'package_order';
     private $fields = 'id, custId, week, day, weight, test_paper, blood_pressure, blood_sugar, sleep(, defecation, zc_time, zc_food, zcjc_time, zcjc_food, wc_time, wc_food, wcjc_time, wcjc_food, wancan_time, wancan_food, wancanjc_time, wancanjc_food, wxc_time, wxc_duration, pj_time, other_sport, drink, expirence, create_user_id, create_time, update_user_id, update_time';
+    private $order_fields = 'id, pid, uid, custId, discount, care_time, food_num, create_user_id, create_time, update_user_id, update_time';
 
     public function __construct() {
         parent::__construct();
@@ -16,6 +18,76 @@ class follow_model extends MY_Model {
 
 
     public function search($params, $order, $page) {
+
+        $name = get_value($params, 'name');                     // 客户名称
+        $phone = get_value($params, 'phone');                   // 客户电话
+        $custId = get_value($params, 'cust_id');                // 业务员id
+        $create_time = get_value($params, 'create_time');       // 登记日期
+
+        $where = array();
+        if($custId!=-1) {
+            $where[] = array('custId', $custId);
+        }
+        if($create_time!='') {
+            $where[] = array('create_time', strtotime($create_time), '>=');
+            $where[] = array('create_time', strtotime($create_time)+60*60*24, '<=');
+        }
+
+        if(count($order)==0) {
+            $order[] = ' create_time desc';
+        }
+        $datas = $this->db->get_page($this->order_table, $this->order_fields, $where, $order, $page);
+
+        $CI = &get_instance();
+        $this->load->model('recept_regist_model');
+        $this->load->model('sys/user_model', 'user_model');
+
+        foreach($datas['rows'] as $k=>$v) {
+            $uinfo = $CI->recept_regist_model->get_info($v['uid']);
+            // 补充用户信息字段
+            $datas['rows'][$k]['name'] = $uinfo['name'];
+            $datas['rows'][$k]['phone'] = $uinfo['phone'];
+            // 业务员信息
+            $userinfo = $CI->user_model->get_userinfo_by_id($v['custId']);
+            if(count($userinfo)>0) {
+                $datas['rows'][$k]['cust_name'] = $userinfo['user_name'];
+            } else {
+                $datas['rows'][$k]['cust_name'] = '';
+            }
+            // 创建记录用户名
+            $create_user_info = $CI->user_model->get_userinfo_by_id($v['create_user_id']);
+            if($create_user_info) {
+                $datas['rows'][$k]['create_user_name'] = $create_user_info['user_name'];
+            } else {
+                $datas['rows'][$k]['update_user_name'] = '';
+            }
+            // 修改记录用户名
+            $update_user_info = $CI->user_model->get_userinfo_by_id($v['update_user_id']);
+            if($update_user_info) {
+                $datas['rows'][$k]['update_user_name'] = $update_user_info['user_name'];
+            } else {
+                $datas['rows'][$k]['update_user_name'] = '';
+            }
+            // 创建时间
+            $datas['rows'][$k]['create_time'] = $v['create_time']=='' ? '' : date('Y-m-d H:i:s', $v['create_time']);
+            // 更新时间
+            $datas['rows'][$k]['update_time'] = $v['update_time']=='' ? '' : date('Y-m-d H:i:s', $v['update_time']);
+            // 过滤信息
+            if($phone!='' || $name!='') {
+                if($phone!='' && $uinfo['phone']!=$phone) {
+                    unset($datas['rows'][$k]);
+                } else if($name!='' && $uinfo['name']!=$name) {
+                    unset($datas['rows'][$k]);
+                }
+            }
+        }
+        $datas['total'] = count($datas['rows']);
+
+        return $datas;
+
+
+
+
 
         $start_time = get_value($params, 'start_time');         // 创建开始时间
         $end_time = get_value($params, 'end_time');             // 创建结束时间
@@ -60,32 +132,7 @@ class follow_model extends MY_Model {
                 $datas['rows'][$k]['branch_name'] = '';
             }
 
-            // 业务员信息
-            $userinfo = $CI->user_model->get_userinfo_by_id($v['custId']);
-            if(count($userinfo)>0) {
-                $datas['rows'][$k]['cust_name'] = $userinfo['user_name'];
-            } else {
-                $datas['rows'][$k]['cust_name'] = '';
-            }
 
-            // 创建记录用户名
-            $create_user_info = $CI->user_model->get_userinfo_by_id($v['create_user_id']);
-            if($create_user_info) {
-                $datas['rows'][$k]['create_user_name'] = $create_user_info['user_name'];
-            } else {
-                $datas['rows'][$k]['update_user_name'] = '';
-            }
-            // 修改记录用户名
-            $update_user_info = $CI->user_model->get_userinfo_by_id($v['update_user_id']);
-            if($update_user_info) {
-                $datas['rows'][$k]['update_user_name'] = $update_user_info['user_name'];
-            } else {
-                $datas['rows'][$k]['update_user_name'] = '';
-            }
-            // 创建时间
-            $datas['rows'][$k]['create_time'] = $v['create_time']=='' ? '' : date('Y-m-d H:i:s', $v['create_time']);
-            // 更新时间
-            $datas['rows'][$k]['update_time'] = $v['update_time']=='' ? '' : date('Y-m-d H:i:s', $v['update_time']);
         }
         return $datas;
     }
