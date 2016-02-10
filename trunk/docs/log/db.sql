@@ -200,3 +200,8 @@ create table if not exists `summary_list` (
     `summary_item` varchar(256) comment '咨询项目',
     primary key (`id`)
 ) engine = myisam character set utf8 collate utf8_general_ci comment = '预约用户数据表';
+
+
+-- linzequan 20160211
+-- 预约用户数据表添加微信相关用户数据字段
+alter table summary_list add wx_openid varchar(32) comment '微信用户标识', add wx_nickname varchar(128) comment '微信用户昵称', add wx_sex tinyint(1) comment '微信用户性别。0未知，1男，2女', add wx_city varchar(32) comment '微信用户所在城市', add wx_country varchar(32) comment '微信用户所在国家', add wx_province varchar(32) comment '微信用户所在省份', add wx_language varchar(128) comment '微信用户语言';
