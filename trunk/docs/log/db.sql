@@ -205,3 +205,8 @@ create table if not exists `summary_list` (
 -- linzequan 20160211
 -- 预约用户数据表添加微信相关用户数据字段
 alter table summary_list add wx_openid varchar(32) comment '微信用户标识', add wx_nickname varchar(128) comment '微信用户昵称', add wx_sex tinyint(1) comment '微信用户性别。0未知，1男，2女', add wx_city varchar(32) comment '微信用户所在城市', add wx_country varchar(32) comment '微信用户所在国家', add wx_province varchar(32) comment '微信用户所在省份', add wx_language varchar(128) comment '微信用户语言';
+
+
+-- linzequan 20160211
+-- 预约用户数据表添加字段
+alter table summary_list add `create_user_id` int comment '创建用户id', add `create_time` int(11) comment '创建时间戳', add `update_user_id` int comment '更新用户id', add `update_time` int(11) comment '更新时间戳';
