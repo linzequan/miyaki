@@ -185,3 +185,18 @@ alter table aftersale_follow change wancan_time wancan_time varchar(16) default 
 alter table aftersale_follow change wancanjc_time wancanjc_time varchar(16) default '' comment '晚餐加餐时间';
 alter table aftersale_follow change wxc_time wxc_time varchar(16) default '' comment '五行操时间';
 alter table aftersale_follow change wxc_duration wxc_duration varchar(16) default '' comment '五行操时间';
+
+
+-- linzequan 20160211
+-- 添加预约用户数据表
+create table if not exists `summary_list` (
+    `id` int not null auto_increment comment '自增id',
+    `name` varchar(32) default '' comment '姓名',
+    `age` int(3) comment '年龄',
+    `sex` tinyint(1) default 0 comment '性别。0未知，1男，2女',
+    `phone` varchar(16) default '' comment '电话',
+    `branchId` int comment '预约分行id',
+    `summary_time` int(11) comment '预约时间',
+    `summary_item` varchar(256) comment '咨询项目',
+    primary key (`id`)
+) engine = myisam character set utf8 collate utf8_general_ci comment = '预约用户数据表';
