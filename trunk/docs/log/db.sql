@@ -171,3 +171,17 @@ create table if not exists `package_order` (
 -- linzequan 20160210
 -- 修改套餐数据表调理周期字段类型
 alter table package change cyclic cyclic int default 0 comment '调理周期';
+
+
+-- linzequan 20160211
+-- 修改跟进数据表字段数据类型
+alter table aftersale_follow change weight weight varchar(32) default '' comment '体重，单位kg';
+alter table aftersale_follow change drink drink varchar(32) default '' comment '饮水，单位ml';
+alter table aftersale_follow change zc_time zc_time varchar(16) default '' comment '早餐时间';
+alter table aftersale_follow change zcjc_time zcjc_time varchar(16) default '' comment '早餐加餐时间';
+alter table aftersale_follow change wc_time wc_time varchar(16) default '' comment '午餐时间';
+alter table aftersale_follow change wcjc_time wcjc_time varchar(16) default '' comment '午餐加餐时间';
+alter table aftersale_follow change wancan_time wancan_time varchar(16) default '' comment '晚餐时间';
+alter table aftersale_follow change wancanjc_time wancanjc_time varchar(16) default '' comment '晚餐加餐时间';
+alter table aftersale_follow change wxc_time wxc_time varchar(16) default '' comment '五行操时间';
+alter table aftersale_follow change wxc_duration wxc_duration varchar(16) default '' comment '五行操时间';

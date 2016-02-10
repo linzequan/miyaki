@@ -25,12 +25,21 @@
                 <form id="fm-edit" method="post" style="width:90%; margin:10px;">
                     <input type="hidden" name="actionxm" value="<?php echo $actionxm; ?>" />
                     <input type="hidden" name="id" value="<?php echo get_value($info, 'id', '0'); ?>">
+                    <input type="hidden" name="custId" value="<?php echo get_value($info, 'custId', '0'); ?>">
                     <table class="fm-table" cellpadding="8px">
                         <colgroup>
                             <col width="240px" />
                             <col width="470px" />
                             <col width="*" />
                         </colgroup>
+                        <tr>
+                            <td class="label" colspan="3" style="text-align:center;">
+                                <h1>三养健康管理日志</h1>
+                                <h5>【第 <span style="color:red; font-weight:700;"><?php echo get_value($info, 'order_week', ''); ?></span> 周  第 <span style="color:red; font-weight:700;"><?php echo get_value($info, 'order_day', ''); ?></span> 天】</h5>
+                                <input type="hidden" name="week" value="<?php echo get_value($info, 'order_week', ''); ?>"/>
+                                <input type="hidden" name="day" value="<?php echo get_value($info, 'order_day', ''); ?>"/>
+                            </td>
+                        </tr>
                         <tr>
                             <td class="label" style="color:red;">
                                 <h3>基础信息</h3>
@@ -40,35 +49,10 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
-                                第几周：
-                            </td>
-                            <td>
-                                <input class="easyui-textbox" name="name" value="<?php echo get_value($info, 'name', ''); ?>" style="width:100%;" />
-                            </td>
-                            <td>
-                                <span style="color:red;"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label">
-                                <span class="required">*</span>
-                                第几日：
-                            </td>
-                            <td>
-                                <input class="easyui-textbox" name="name" value="<?php echo get_value($info, 'name', ''); ?>" style="width:100%;" />
-                            </td>
-                            <td>
-                                <span style="color:red;"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label">
-                                <span class="required">*</span>
                                 体重（KG）：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="weight" value="<?php echo get_value($info, 'weight', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -76,11 +60,10 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
                                 试纸：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="test_paper" value="<?php echo get_value($info, 'test_paper', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -88,11 +71,10 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
                                 血压：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="blood_pressure" value="<?php echo get_value($info, 'blood_pressure', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -100,11 +82,10 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
                                 血糖：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="blood_sugar" value="<?php echo get_value($info, 'blood_sugar', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -112,11 +93,10 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
                                 睡眠：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="sleep" value="<?php echo get_value($info, 'sleep', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -124,11 +104,10 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
                                 大小便：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="defecation" value="<?php echo get_value($info, 'defecation', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -143,11 +122,10 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
                                 早餐时间：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                                <input class="easyui-timespinner" name="zc_time" value="<?php echo get_value($info, 'zc_time', ''); ?>" data-options="showSeconds:true, min:'07:30', max:'10:00'" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -155,23 +133,10 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
-                                食物：
+                                早餐食物：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
-                            </td>
-                            <td>
-                                <span style="color:red;"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label">
-                                <span class="required">*</span>
-                                加餐时间：
-                            </td>
-                            <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="zc_food" value="<?php echo get_value($info, 'zc_food', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -179,11 +144,10 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
-                                食物：
+                                早餐加餐时间：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                                <input class="easyui-timespinner" name="zcjc_time" value="<?php echo get_value($info, 'zcjc_time', ''); ?>" data-options="showSeconds:true, min:'10:00', max:'12:00'" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -191,11 +155,21 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
+                                早餐加餐食物：
+                            </td>
+                            <td>
+                                <input class="easyui-textbox" name="zcjc_food" value="<?php echo get_value($info, 'zcjc_food', ''); ?>" style="width:100%;" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
                                 午餐时间：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                                <input class="easyui-timespinner" name="wc_time" value="<?php echo get_value($info, 'wc_time', ''); ?>" data-options="showSeconds:true, min:'12:00', max:'15:00'" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -203,23 +177,10 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
-                                食物：
+                                午餐食物：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
-                            </td>
-                            <td>
-                                <span style="color:red;"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label">
-                                <span class="required">*</span>
-                                加餐时间：
-                            </td>
-                            <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="wc_food" value="<?php echo get_value($info, 'wc_food', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -227,11 +188,10 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
-                                食物：
+                                午餐加餐时间：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                                <input class="easyui-timespinner" name="wcjc_time" value="<?php echo get_value($info, 'wcjc_time', ''); ?>" data-options="showSeconds:true, min:'15:00', max:'18:00'" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -239,11 +199,21 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
+                                午餐加餐食物：
+                            </td>
+                            <td>
+                                <input class="easyui-textbox" name="wcjc_food" value="<?php echo get_value($info, 'wcjc_food', ''); ?>" style="width:100%;" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
                                 晚餐时间：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                                <input class="easyui-timespinner" name="wancan_time" value="<?php echo get_value($info, 'wancan_time', ''); ?>" data-options="showSeconds:true, min:'18:00', max:'21:00'" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -251,23 +221,10 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
-                                食物：
+                                晚餐食物：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
-                            </td>
-                            <td>
-                                <span style="color:red;"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label">
-                                <span class="required">*</span>
-                                加餐时间：
-                            </td>
-                            <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="wancan_food" value="<?php echo get_value($info, 'wancan_food', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -275,11 +232,21 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
-                                食物：
+                                晚餐加餐时间：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                                <input class="easyui-timespinner" name="wancanjc_time" value="<?php echo get_value($info, 'wancanjc_time', ''); ?>" data-options="showSeconds:true, min:'21:00', max:'24:00'" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                晚餐加餐食物：
+                            </td>
+                            <td>
+                                <input class="easyui-textbox" name="wancanjc_food" value="<?php echo get_value($info, 'wancanjc_food', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -294,11 +261,10 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
                                 五行操时间：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                                <input class="easyui-timespinner" name="wxc_time" value="<?php echo get_value($info, 'wxc_time', ''); ?>" data-options="showSeconds:true, min:'09:30', max:'24:00'" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -306,23 +272,10 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
-                                时长：
+                                五行操时长（分钟）：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
-                            </td>
-                            <td>
-                                <span style="color:red;"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label">
-                                <span class="required">*</span>
-                                泡脚时间：
-                            </td>
-                            <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="wxc_duration" value="<?php echo get_value($info, 'wxc_duration', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -330,11 +283,21 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
+                                泡脚时间（分钟）：
+                            </td>
+                            <td>
+                                <input class="easyui-textbox" name="pj_time" value="<?php echo get_value($info, 'pj_time', ''); ?>" style="width:100%;" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
                                 其他运动：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="other_sport" value="<?php echo get_value($info, 'other_sport', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -342,11 +305,10 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
                                 饮水（ML）：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="drink" value="<?php echo get_value($info, 'drink', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -354,11 +316,10 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required">*</span>
                                 体会：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="expirence" value="<?php echo get_value($info, 'expirence', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -367,8 +328,6 @@
                         <tr>
                             <td style="text-align:center;" colspan="2">
                                 <button type="button" class="easyui-linkbutton" style="width:90px" onclick="do_save()">保存</button>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <button type="button" class="easyui-linkbutton" style="width:90px" onclick="do_reset()">重置</button>
                             </td>
                             <td>&nbsp;</td>
                         </tr>
@@ -382,7 +341,6 @@
 <script type="text/javascript">
 
     $(function() {
-
     });
 
     // 保存登录tips信息
@@ -390,30 +348,6 @@
         $('#fm-edit').form('submit', {
             url: '<?php echo $ctrl_url; ?>/post',
             onSubmit: function() {
-                if($('#fm-edit input[name="name"]').val()=='') {
-                    $.messager.alert('操作提示', '请输入姓名');
-                    return false;
-                }
-                if($('#fm-edit input[name="age"]').val()=='') {
-                    $.messager.alert('操作提示', '请输入年龄');
-                    return false;
-                }
-                if($('#fm-edit input[name="sex"]').val()=='') {
-                    $.messager.alert('操作提示', '请输入性别');
-                    return false;
-                }
-                if($('#fm-edit input[name="phone"]').val()=='') {
-                    $.messager.alert('操作提示', '请输入电话');
-                    return false;
-                }
-                if($('#fm-edit input[name="address"]').val()=='') {
-                    $.messager.alert('操作提示', '请输入地址');
-                    return false;
-                }
-                if($('#fm-edit input[name="member_count"]').val()=='') {
-                    $.messager.alert('操作提示', '请输入家庭成员数量');
-                    return false;
-                }
                 return true;
             },
             success: function(result) {

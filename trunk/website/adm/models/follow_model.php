@@ -84,57 +84,6 @@ class follow_model extends MY_Model {
         $datas['total'] = count($datas['rows']);
 
         return $datas;
-
-
-
-
-
-        $start_time = get_value($params, 'start_time');         // 创建开始时间
-        $end_time = get_value($params, 'end_time');             // 创建结束时间
-        $name = get_value($params, 'name');                     // 姓名
-        $phone = get_value($params, 'phone');                   // 电话
-        $branchId = get_value($params, 'branch_id');            // 分店id
-        $custId = get_value($params, 'custId');                 // 业务员id
-
-        $where = array();
-        if($start_time!='') {
-            $where[] = array('create_time', strtotime($start_time), '>=');
-        }
-        if($end_time!='') {
-            $where[] = array('create_time', strtotime($end_time), '<=');
-        }
-        if($name!='') {
-            $where[] = array('name', $name, 'like');
-        }
-        if($phone!='') {
-            $where[] = array('phone', $phone, 'like');
-        }
-        if($branchId!=-1) {
-            $where[] = array('branchId', $branchId);
-        }
-        if($custId!='') {
-            $where[] = array('custId', $custId);
-        }
-
-        if(count($order)==0) {
-            $order[] = ' create_time desc';
-        }
-        $datas = $this->db->get_page($this->table, $this->fields, $where, $order, $page);
-        $this->load->model('sys/user_model', 'user_model');
-        $this->load->model('sys/branch_model', 'branch_model');
-        $CI = &get_instance();
-        foreach($datas['rows'] as $k=>$v) {
-            // 分店信息
-            $branch_info = $CI->branch_model->get_name_by_id($v['branchId']);
-            if($branch_info!='') {
-                $datas['rows'][$k]['branch_name'] = $branch_info;
-            } else {
-                $datas['rows'][$k]['branch_name'] = '';
-            }
-
-
-        }
-        return $datas;
     }
 
 
@@ -157,13 +106,23 @@ class follow_model extends MY_Model {
         if($id<=0) {
             return array();
         }
+
         $result = array();
 
-        $query = $this->db->select($this->fields)->where('custId', $id)->get($this->table);
+        // 查询当前是调理期第几周第几天
+        $this->load->model('package_order_model');
+        $CI = &get_instance();
+        $result['order_week'] = $CI->package_order_model->get_order_week($id);
+        $result['order_day'] = $CI->package_order_model->get_order_day($id);
+        $order_info = $CI->package_order_model->get_info($id);
+        $result['custId'] = $order_info['custId'];
+
+        $query = $this->db->select($this->fields)->where('id', $id)->get($this->table);
         if($query->num_rows()<=0) {
-            return array();
+            return $result;
         }
-        $result = $query->row_array();
+        $result = array_merge($result, $query->row_array());
+
         return $result;
     }
 
@@ -361,95 +320,97 @@ class follow_model extends MY_Model {
     }
 
 
+    public function has_record($custId, $week=1, $day=1) {
+        if($custId<=0) {
+            return array();
+        }
+        $result = array();
+        $where = array('custId'=>$custId, 'week'=>$week, 'day'=>$day);
+
+        $query = $this->db->select($this->fields)->$where->get($this->table);
+        return ($query->num_rows()<=0 ? false : true);
+    }
+
+
     public function insert($info) {
-         $data = array(
-            'name'                  => get_value($info, 'name'),
-            'age'                   => get_value($info, 'age'),
-            'sex'                   => get_value($info, 'sex'),
-            'phone'                 => get_value($info, 'phone'),
-            'address'               => get_value($info, 'address'),
-            'member_count'          => get_value($info, 'member_count'),
-            'remarks'               => get_value($info, 'remarks'),
-            'height'                => get_value($info, 'height'),
-            'weight'                => get_value($info, 'weight'),
-            'blood_pressure'        => get_value($info, 'blood_pressure'),
-            'blood_sugar'           => get_value($info, 'blood_sugar'),
-            'fat_percent'           => get_value($info, 'fat_percent'),
-            'BNI'                   => get_value($info, 'BNI'),
-            'visceral_fat'          => get_value($info, 'visceral_fat'),
-            'basal_metabolism'      => get_value($info, 'basal_metabolism'),
-            'body_age'              => get_value($info, 'body_age'),
-            'waistline'             => get_value($info, 'waistline'),
-            'hipline'               => get_value($info, 'hipline'),
-            'thigh_circumference'   => get_value($info, 'thigh_circumference'),
-            'drugs_used'            => get_value($info, 'drugs_used'),
-            'create_user_id'        => $this->session->userdata('user_id'),
-            'create_time'           => time()
+        $data = array(
+            'custId'        => get_value($info, 'custId'),
+            'week'          => get_value($info, 'week'),
+            'day'           => get_value($info, 'day'),
+            'weight'        => get_value($info, 'weight'),
+            'test_paper'    => get_value($info, 'test_paper'),
+            'blood_pressure'=> get_value($info, 'blood_pressure'),
+            'blood_sugar'   => get_value($info, 'blood_sugar'),
+            'sleep'         => get_value($info, 'sleep'),
+            'defecation'    => get_value($info, 'defecation'),
+            'zc_time'       => get_value($info, 'zc_time'),
+            'zc_food'       => get_value($info, 'zc_food'),
+            'zcjc_time'     => get_value($info, 'zcjc_time'),
+            'zcjc_food'     => get_value($info, 'zcjc_food'),
+            'wc_time'       => get_value($info, 'wc_time'),
+            'wc_food'       => get_value($info, 'wc_food'),
+            'wcjc_time'     => get_value($info, 'wcjc_time'),
+            'wcjc_food'     => get_value($info, 'wcjc_food'),
+            'wancan_time'   => get_value($info, 'wancan_time'),
+            'wancan_food'   => get_value($info, 'wancan_food'),
+            'wancanjc_time' => get_value($info, 'wancanjc_time'),
+            'wancanjc_food' => get_value($info, 'wancanjc_food'),
+            'wxc_time'      => get_value($info, 'wxc_time'),
+            'wxc_duration'  => get_value($info, 'wxc_duration'),
+            'pj_time'       => get_value($info, 'pj_time'),
+            'other_sport'   => get_value($info, 'other_sport'),
+            'drink'         => get_value($info, 'drink'),
+            'expirence'     => get_value($info, 'expirence'),
+            'create_user_id'=> $this->session->userdata('user_id'),
+            'create_time'   => time()
         );
+        foreach($data as $k=>$v) {
+            if($v=='') {
+                unset($data[$k]);
+            }
+        }
         $this->db->insert($this->table, $data);
+
         return $this->create_result(true, 0, array('id'=>$this->db->insert_id()));
     }
 
 
     public function update($id, $info) {
-        $data = array(
-            'name'                  => get_value($info, 'name'),
-            'age'                   => get_value($info, 'age'),
-            'sex'                   => get_value($info, 'sex'),
-            'phone'                 => get_value($info, 'phone'),
-            'address'               => get_value($info, 'address'),
-            'member_count'          => get_value($info, 'member_count'),
-            'remarks'               => get_value($info, 'remarks'),
-            'height'                => get_value($info, 'height'),
-            'weight'                => get_value($info, 'weight'),
-            'blood_pressure'        => get_value($info, 'blood_pressure'),
-            'blood_sugar'           => get_value($info, 'blood_sugar'),
-            'fat_percent'           => get_value($info, 'fat_percent'),
-            'BNI'                   => get_value($info, 'BNI'),
-            'visceral_fat'          => get_value($info, 'visceral_fat'),
-            'basal_metabolism'      => get_value($info, 'basal_metabolism'),
-            'body_age'              => get_value($info, 'body_age'),
-            'waistline'             => get_value($info, 'waistline'),
-            'hipline'               => get_value($info, 'hipline'),
-            'thigh_circumference'   => get_value($info, 'thigh_circumference'),
-            'drugs_used'            => get_value($info, 'drugs_used'),
-            'update_user_id'        => $this->session->userdata('user_id'),
-            'update_time'           => time()
-        );
-        $where = array('id'=>$id);
-        $this->db->update($this->table, $data, $where);
-        return $this->create_result(true, 0, $where);
-    }
-
-
-    public function updateSale($id, $info) {
-        $data = array(
-            'custId'            => get_value($info, 'custId'),
-            'update_user_id'    => $this->session->userdata('user_id'),
-            'update_time'       => time()
-        );
-        $where = array('id'=>$id);
-        $this->db->update($this->table, $data, $where);
-        return $this->create_result(true, 0, $where);
-    }
-
-
-    public function getAllUser() {
-        $query = $this->db->select($this->fields)->get($this->table);
-        if($query->num_rows()<=0) {
-            return array();
+        if($id==0) {
+            $this->insert($info);
+        } else {
+            $data = array(
+                'weight'        => get_value($info, 'weight'),
+                'test_paper'    => get_value($info, 'test_paper'),
+                'blood_pressure'=> get_value($info, 'blood_pressure'),
+                'blood_sugar'   => get_value($info, 'blood_sugar'),
+                'sleep'         => get_value($info, 'sleep'),
+                'defecation'    => get_value($info, 'defecation'),
+                'zc_time'       => get_value($info, 'zc_time'),
+                'zc_food'       => get_value($info, 'zc_food'),
+                'zcjc_time'     => get_value($info, 'zcjc_time'),
+                'zcjc_food'     => get_value($info, 'zcjc_food'),
+                'wc_time'       => get_value($info, 'wc_time'),
+                'wc_food'       => get_value($info, 'wc_food'),
+                'wcjc_time'     => get_value($info, 'wcjc_time'),
+                'wcjc_food'     => get_value($info, 'wcjc_food'),
+                'wancan_time'   => get_value($info, 'wancan_time'),
+                'wancan_food'   => get_value($info, 'wancan_food'),
+                'wancanjc_time' => get_value($info, 'wancanjc_time'),
+                'wancanjc_food' => get_value($info, 'wancanjc_food'),
+                'wxc_time'      => get_value($info, 'wxc_time'),
+                'wxc_duration'  => get_value($info, 'wxc_duration'),
+                'pj_time'       => get_value($info, 'pj_time'),
+                'other_sport'   => get_value($info, 'other_sport'),
+                'drink'         => get_value($info, 'drink'),
+                'expirence'     => get_value($info, 'expirence'),
+                'update_user_id'=> $this->session->userdata('user_id'),
+                'update_time'   => time()
+            );
+            $where = array('id'=>$id);
+            $this->db->update($this->table, $data, $where);
+            return $this->create_result(true, 0, $where);
         }
-        $result = $query->result_array();
-        return $result;
     }
 
-
-    public function getCustomerTree() {
-        $customers = $this->getAllUser();
-        $customerTree = '<option value="0">---请选择---</option>';
-        foreach($customers as $k=>$v) {
-            $customerTree .= '<option value="' . $v['id'] . '">' . $v['phone'] . '(' . $v['name'] . ')</option>';
-        }
-        return $customerTree;
-    }
 }

@@ -58,19 +58,10 @@ class follow extends MY_Controller {
         $actionxm = $this->get_request('actionxm');
         $result = array();
         switch($actionxm) {
-            case 'insert':
-                $info = $this->get_request();
-                $result = $this->def_model->insert($info);
-                break;
             case 'update':
                 $id = $this->input->post('id');
                 $info = $this->get_request();
                 $result = $this->def_model->update($id, $info);
-                break;
-            case 'updateSale':
-                $id = $this->input->post('id');
-                $info = $this->get_request();
-                $result = $this->def_model->updateSale($id, $info);
                 break;
         }
         $this->output_result($result);

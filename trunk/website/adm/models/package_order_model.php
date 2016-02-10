@@ -208,4 +208,44 @@ class package_order_model extends MY_Model {
         }
     }
 
+
+    public function get_order_week($id) {
+        if($id<=0) {
+            return false;
+        }
+        // 获取订单信息
+        $order_info = $this->get_info($id);
+        if(count($order_info)>0) {
+            // 计算当前距离开始调理时间天数
+            $diff = intval((time() - $order_info['care_time']) / (60 * 60 * 24 * 7)) + 1;
+            if($diff>0) {
+                return $diff;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+
+    public function get_order_day($id) {
+        if($id<=0) {
+            return false;
+        }
+        // 获取订单信息
+        $order_info = $this->get_info($id);
+        if(count($order_info)>0) {
+            // 计算当前距离开始调理时间天数
+            $diff = intval((time() - $order_info['care_time']) / (60 * 60 * 24)) + 1;
+            if($diff>0) {
+                return $diff;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
 }
