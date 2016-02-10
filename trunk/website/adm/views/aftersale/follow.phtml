@@ -136,12 +136,12 @@
     function open_update() {
         var info = $('#dg').datagrid('getSelected');
         if(info==null) {
-            $.messager.alert('操作提示', '请选择需要修改的记录！', 'warning');
+            $.messager.alert('操作提示', '请选择需要跟进的记录！', 'warning');
             return;
         }
         cur_tips_id = info['id'];
         var url = '<?php echo $ctrl_url.'/info/'?>' + cur_tips_id;
-        $('#manage_edit').attr('src',url);
+        $('#manage_edit').attr('src', url);
         change_panel('edit');
     }
 

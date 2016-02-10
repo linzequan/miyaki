@@ -24,7 +24,7 @@ class follow extends MY_Controller {
             'info' => array()
         );
         if(intval($id)>0) {
-            $info = $this->def_model->get_info($id);
+            $info = $this->def_model->get_follwoInfo($id);
             if(count($info)>0) {
                 $data['actionxm'] = 'update';
                 $data['info'] = $info;

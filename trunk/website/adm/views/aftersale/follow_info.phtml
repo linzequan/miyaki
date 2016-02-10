@@ -6,7 +6,7 @@
         'css'=>array(),
         'js' =>array(),
     ));
-    $ctrl_url = base_url('customer/recept_regist');
+    $ctrl_url = base_url('aftersale/follow');
 ?>
 <style>
     .required {
@@ -27,7 +27,7 @@
                     <input type="hidden" name="id" value="<?php echo get_value($info, 'id', '0'); ?>">
                     <table class="fm-table" cellpadding="8px">
                         <colgroup>
-                            <col width="240px"  />
+                            <col width="240px" />
                             <col width="470px" />
                             <col width="*" />
                         </colgroup>
@@ -36,13 +36,12 @@
                                 <h3>基础信息</h3>
                             </td>
                             <td colspan="2">
-                                <!-- <div class="datagrid-toolbar"></div> -->
                             </td>
                         </tr>
                         <tr>
                             <td class="label">
                                 <span class="required">*</span>
-                                姓名：
+                                第几周：
                             </td>
                             <td>
                                 <input class="easyui-textbox" name="name" value="<?php echo get_value($info, 'name', ''); ?>" style="width:100%;" />
@@ -54,7 +53,19 @@
                         <tr>
                             <td class="label">
                                 <span class="required">*</span>
-                                年龄：
+                                第几日：
+                            </td>
+                            <td>
+                                <input class="easyui-textbox" name="name" value="<?php echo get_value($info, 'name', ''); ?>" style="width:100%;" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                <span class="required">*</span>
+                                体重（KG）：
                             </td>
                             <td>
                                 <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
@@ -66,14 +77,10 @@
                         <tr>
                             <td class="label">
                                 <span class="required">*</span>
-                                性别：
+                                试纸：
                             </td>
                             <td>
-                                <select name="sex" style="width:auto;">
-                                    <option value="1" <?php $sex=get_value($info, 'sex', ''); if($sex==1) echo 'selected="selected"'; ?>>男</option>
-                                    <option value="2" <?php $sex=get_value($info, 'sex', ''); if($sex==2) echo 'selected="selected"'; ?>>女</option>
-                                    <option value="0" <?php $sex=get_value($info, 'sex', ''); if($sex==0) echo 'selected="selected"'; ?>>未知</option>
-                                </select>
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -82,22 +89,10 @@
                         <tr>
                             <td class="label">
                                 <span class="required">*</span>
-                                电话：
+                                血压：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="phone" value="<?php echo get_value($info, 'phone', ''); ?>" style="width:100%;" />
-                            </td>
-                            <td>
-                                <span style="color:red;"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label">
-                                <span class="required">*</span>
-                                地址：
-                            </td>
-                            <td>
-                                <input class="easyui-textbox" name="address" value="<?php echo get_value($info, 'address', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -106,10 +101,10 @@
                         <tr>
                             <td class="label">
                                 <span class="required">*</span>
-                                家庭成员数量：
+                                血糖：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="member_count" value="<?php echo get_value($info, 'member_count', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -117,11 +112,23 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required"></span>
-                                备注：
+                                <span class="required">*</span>
+                                睡眠：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="remarks" value="<?php echo get_value($info, 'remarks', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                <span class="required">*</span>
+                                大小便：
+                            </td>
+                            <td>
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -129,43 +136,18 @@
                         </tr>
                         <tr>
                             <td class="label" style="color:red;">
-                                <h3>症状信息</h3>
+                                <h3>饮食信息</h3>
                             </td>
                             <td colspan="2">
-                                <!-- <div class="datagrid-toolbar"></div> -->
                             </td>
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required"></span>
-                                身高：
+                                <span class="required">*</span>
+                                早餐时间：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="height" value="<?php echo get_value($info, 'height', ''); ?>" style="width:100%;" />
-                            </td>
-                            <td>
-                                <span style="color:red;">单位：cm</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label">
-                                <span class="required"></span>
-                                体重：
-                            </td>
-                            <td>
-                                <input class="easyui-textbox" name="weight" value="<?php echo get_value($info, 'weight', ''); ?>" style="width:100%;" />
-                            </td>
-                            <td>
-                                <span style="color:red;">单位：（公斤）</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label">
-                                <span class="required"></span>
-                                血压：
-                            </td>
-                            <td>
-                                <input class="easyui-textbox" name="blood_pressure" value="<?php echo get_value($info, 'blood_pressure', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -173,59 +155,11 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required"></span>
-                                血糖：
+                                <span class="required">*</span>
+                                食物：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="blood_sugar" value="<?php echo get_value($info, 'blood_sugar', ''); ?>" style="width:100%;" />
-                            </td>
-                            <td>
-                                <span style="color:red;"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label">
-                                <span class="required"></span>
-                                身体脂肪率：
-                            </td>
-                            <td>
-                                <input class="easyui-textbox" name="fat_percent" value="<?php echo get_value($info, 'fat_percent', ''); ?>" style="width:100%;" />
-                            </td>
-                            <td>
-                                <span style="color:red;">男10—19.9；女20—29.9</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label">
-                                <span class="required"></span>
-                                BNI：
-                            </td>
-                            <td>
-                                <input class="easyui-textbox" name="BNI" value="<?php echo get_value($info, 'BNI', ''); ?>" style="width:100%;" />
-                            </td>
-                            <td>
-                                <span style="color:red;">18.5—25</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label">
-                                <span class="required"></span>
-                                内脏脂肪：
-                            </td>
-                            <td>
-                                <input class="easyui-textbox" name="visceral_fat" value="<?php echo get_value($info, 'visceral_fat', ''); ?>" style="width:100%;" />
-                            </td>
-                            <td>
-                                <span style="color:red;">（1—9）</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label">
-                                <span class="required"></span>
-                                基础代谢：
-                            </td>
-                            <td>
-                                <input class="easyui-textbox" name="basal_metabolism" value="<?php echo get_value($info, 'basal_metabolism', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -233,23 +167,11 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required"></span>
-                                身体年龄：
+                                <span class="required">*</span>
+                                加餐时间：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="body_age" value="<?php echo get_value($info, 'body_age', ''); ?>" style="width:100%;" />
-                            </td>
-                            <td>
-                                <span style="color:red;"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label">
-                                <span class="required"></span>
-                                腰围：
-                            </td>
-                            <td>
-                                <input class="easyui-textbox" name="waistline" value="<?php echo get_value($info, 'waistline', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -257,23 +179,11 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required"></span>
-                                臀围：
+                                <span class="required">*</span>
+                                食物：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="hipline" value="<?php echo get_value($info, 'hipline', ''); ?>" style="width:100%;" />
-                            </td>
-                            <td>
-                                <span style="color:red;"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label">
-                                <span class="required"></span>
-                                大腿围：
-                            </td>
-                            <td>
-                                <input class="easyui-textbox" name="thigh_circumference" value="<?php echo get_value($info, 'thigh_circumference', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -281,23 +191,11 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required"></span>
-                                管理目标：
+                                <span class="required">*</span>
+                                午餐时间：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="manage_aim" value="<?php echo get_value($info, 'manage_aim', ''); ?>" style="width:100%;" />
-                            </td>
-                            <td>
-                                <span style="color:red;"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label">
-                                <span class="required"></span>
-                                健康现状描述（病症）：
-                            </td>
-                            <td>
-                                <input class="easyui-textbox" name="health_status" value="<?php echo get_value($info, 'health_status', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>
@@ -305,23 +203,162 @@
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required"></span>
-                                所用药物或其他：
+                                <span class="required">*</span>
+                                食物：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="drugs_used" value="<?php echo get_value($info, 'drugs_used', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
-                                <span style="color:red;">药物名称、用量</span>
+                                <span style="color:red;"></span>
                             </td>
                         </tr>
                         <tr>
                             <td class="label">
-                                <span class="required"></span>
-                                家庭成员现状：
+                                <span class="required">*</span>
+                                加餐时间：
                             </td>
                             <td>
-                                <input class="easyui-textbox" name="member_status" value="<?php echo get_value($info, 'member_status', ''); ?>" style="width:100%;" />
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                <span class="required">*</span>
+                                食物：
+                            </td>
+                            <td>
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                <span class="required">*</span>
+                                晚餐时间：
+                            </td>
+                            <td>
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                <span class="required">*</span>
+                                食物：
+                            </td>
+                            <td>
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                <span class="required">*</span>
+                                加餐时间：
+                            </td>
+                            <td>
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                <span class="required">*</span>
+                                食物：
+                            </td>
+                            <td>
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label" style="color:red;">
+                                <h3>其他信息</h3>
+                            </td>
+                            <td colspan="2">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                <span class="required">*</span>
+                                五行操时间：
+                            </td>
+                            <td>
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                <span class="required">*</span>
+                                时长：
+                            </td>
+                            <td>
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                <span class="required">*</span>
+                                泡脚时间：
+                            </td>
+                            <td>
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                <span class="required">*</span>
+                                其他运动：
+                            </td>
+                            <td>
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                <span class="required">*</span>
+                                饮水（ML）：
+                            </td>
+                            <td>
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
+                            </td>
+                            <td>
+                                <span style="color:red;"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">
+                                <span class="required">*</span>
+                                体会：
+                            </td>
+                            <td>
+                                <input class="easyui-textbox" name="age" value="<?php echo get_value($info, 'age', ''); ?>" style="width:100%;" />
                             </td>
                             <td>
                                 <span style="color:red;"></span>

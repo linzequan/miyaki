@@ -7,9 +7,9 @@
  */
 class follow_model extends MY_Model {
 
-    private $table = 'follow';
+    private $table = 'aftersale_follow';
     private $order_table = 'package_order';
-    private $fields = 'id, custId, week, day, weight, test_paper, blood_pressure, blood_sugar, sleep(, defecation, zc_time, zc_food, zcjc_time, zcjc_food, wc_time, wc_food, wcjc_time, wcjc_food, wancan_time, wancan_food, wancanjc_time, wancanjc_food, wxc_time, wxc_duration, pj_time, other_sport, drink, expirence, create_user_id, create_time, update_user_id, update_time';
+    private $fields = 'id, custId, week, day, weight, test_paper, blood_pressure, blood_sugar, sleep, defecation, zc_time, zc_food, zcjc_time, zcjc_food, wc_time, wc_food, wcjc_time, wcjc_food, wancan_time, wancan_food, wancanjc_time, wancanjc_food, wxc_time, wxc_duration, pj_time, other_sport, drink, expirence, create_user_id, create_time, update_user_id, update_time';
     private $order_fields = 'id, pid, uid, custId, discount, care_time, food_num, create_user_id, create_time, update_user_id, update_time';
 
     public function __construct() {
@@ -145,6 +145,21 @@ class follow_model extends MY_Model {
         $result = array();
 
         $query = $this->db->select($this->fields)->where('id', $id)->get($this->table);
+        if($query->num_rows()<=0) {
+            return array();
+        }
+        $result = $query->row_array();
+        return $result;
+    }
+
+
+    public function get_follwoInfo($id) {
+        if($id<=0) {
+            return array();
+        }
+        $result = array();
+
+        $query = $this->db->select($this->fields)->where('custId', $id)->get($this->table);
         if($query->num_rows()<=0) {
             return array();
         }
