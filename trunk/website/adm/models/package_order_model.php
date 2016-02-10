@@ -193,4 +193,19 @@ class package_order_model extends MY_Model {
         return $this->create_result(true, 0, array('id'=>$this->db->insert_id()));
     }
 
+
+    public function has_trade($id) {
+        if($id<=0) {
+            return false;
+        }
+        $where = array('id'=>$id);
+        $query = $this->db->get_where($this->table, $where);
+        $rows = $query->result_array();
+        if(count($rows)>0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

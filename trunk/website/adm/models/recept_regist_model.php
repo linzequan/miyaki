@@ -91,6 +91,36 @@ class recept_regist_model extends MY_Model {
     }
 
 
+    public function ledger_search($params, $order, $page) {
+
+        $has_trade = get_value($params, 'has_trade');           // 是否交易
+
+        $datas = $this->search($params, $order, $page);
+        $this->load->model('package_order_model');
+        $CI = &get_instance();
+        foreach($datas['rows'] as $k=>$v) {
+            // 查询是否有交易记录
+            $datas['rows'][$k]['has_trade'] = $CI->package_order_model->has_trade($v['id']);
+            if($has_trade==1 && !$datas['rows'][$k]['has_trade']) {
+                // 如果选择已交易，并且是未交易用户
+                unset($datas['rows'][$k]);
+                $datas['total']--;
+            } else if($has_trade==2 && !!$datas['rows'][$k]['has_trade']) {
+                // 如果选择未交易，并且是已交易用户
+                unset($datas['rows'][$k]);
+                $datas['total']--;
+            }
+        }
+        if(count($datas['rows'])==1) {
+            $tmp = $datas['rows'];
+            $key = key($datas['rows']);
+            unset($datas['rows']);
+            $datas['rows'][] = $tmp[$key];
+        }
+        return $datas;
+    }
+
+
     public function get_info($id) {
         if($id<=0) {
             return array();
@@ -106,7 +136,7 @@ class recept_regist_model extends MY_Model {
     }
 
 
-    public function get_detail($id) {
+    public function get_detail($id, $has_trade=false) {
         if($id<=0) {
             return false;
         }
@@ -123,6 +153,15 @@ class recept_regist_model extends MY_Model {
                 $str .= '<tr>' .
                             '<td class="dv-label">姓名: </td>' .
                             '<td>' . $rows[0]['name'] . '</td>' .
+                        '</tr>';
+            }
+            if($has_trade) {
+                $this->load->model('package_order_model');
+                $CI = &get_instance();
+                $has_trade = $CI->package_order_model->has_trade($rows[0]['id']) ? '已交易' : '未交易';
+                $str .= '<tr>' .
+                            '<td class="dv-label">交易与否: </td>' .
+                            '<td>' . $has_trade . '</td>' .
                         '</tr>';
             }
             if($rows[0]['branchId']>0) {
