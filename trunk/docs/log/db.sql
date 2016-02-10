@@ -166,3 +166,8 @@ create table if not exists `package_order` (
     `update_time` int(11) comment '更新时间戳',
     primary key (`id`)
 ) engine = myisam character set utf8 collate utf8_general_ci comment = '套餐订单数据表';
+
+
+-- linzequan 20160210
+-- 修改套餐数据表调理周期字段类型
+alter table package change cyclic cyclic int default 0 comment '调理周期';

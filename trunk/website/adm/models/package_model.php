@@ -107,7 +107,7 @@ class package_model extends MY_Model {
             }
             if($rows[0]['cyclic']!='') {
                 $str .= '<tr>' .
-                            '<td class="dv-label">调理周期: </td>' .
+                            '<td class="dv-label">调理周期（天）: </td>' .
                             '<td>' . $rows[0]['cyclic'] . '</td>' .
                         '</tr>';
             }
