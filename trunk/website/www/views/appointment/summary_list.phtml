@@ -115,6 +115,28 @@
             </div>
         </form>
     </div>
+    <div class="weui_loading_toast js_toast" style="display:none;">
+        <div class="weui_mask_transparent"></div>
+        <div class="weui_toast">
+            <div class="weui_loading">
+                <!-- :) -->
+                <div class="weui_loading_leaf weui_loading_leaf_0"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_1"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_2"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_3"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_4"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_5"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_6"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_7"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_8"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_9"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_10"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_11"></div>
+            </div>
+            <p class="weui_toast_content">数据加载中</p>
+        </div>
+    </div>
+
     <div class="weui_toptips weui_warn js_tooltips" style="opacity:0.8"></div>
     <div class="weui_dialog_alert js_alert" style="display: none;">
         <div class="weui_mask"></div>
@@ -195,11 +217,13 @@
         if(!beforeSubmit()) {
             return;
         }
+        $('.js_toast').show();
         $.ajax({
             url: '<?php echo $ctrl_url; ?>/post',
             data: getParams(),
             type: 'post',
             success: function(result) {
+                $('.js_toast').hide();
                 var result = eval('(' + result + ')');
                 if(result['error']==0) {
                     $('.js_alert').show();
