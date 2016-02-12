@@ -24,7 +24,7 @@ class branch_model extends MY_Model {
             // 创建记录用户名
             $create_user_info = $CI->user_model->get_userinfo_by_id($v['create_user_id']);
             if($create_user_info) {
-                $$list[$k]['create_user_name'] = $create_user_info['user_name'];
+                $list[$k]['create_user_name'] = $create_user_info['user_name'];
             } else {
                 $list[$k]['update_user_name'] = '';
             }
