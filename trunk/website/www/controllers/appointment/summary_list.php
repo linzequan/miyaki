@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class home extends MY_Controller {
+class summary_list extends MY_Controller {
 
     public function __construct() {
         parent::__construct();
@@ -8,6 +8,6 @@ class home extends MY_Controller {
 
 
     public function index() {
-        header("Location: ".base_url()."adm");
+        $this->load->view('appointment/summary_list');
     }
 }

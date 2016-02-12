@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>三养健康预约</title>
+    <link rel="stylesheet" type="text/css" href="http://dev.miyaki.com/www/static/css/weui.min.css">
+    <script type="text/javascript" src="http://dev.miyaki.com/www/static/js/zepto.min.js"></script>
+    <style type="text/css">
+    .page_title {
+        color: #225fba;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 400;
+        margin: 1rem 15%;
+    }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="hd">
+            <h1 class="page_title">三养健康预约</h1>
+        </div>
+        <div class="bd">
+
+            <div class="weui_cells weui_cells_form">
+                <div class="weui_cell">
+                    <div class="weui_cell_hd">
+                        <label class="weui_label">姓名</label>
+                    </div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input js_name" type="text" name="name" placeholder="请输入姓名" />
+                    </div>
+                </div>
+
+                <div class="weui_cell">
+                    <div class="weui_cell_hd">
+                        <label class="weui_label">年龄</label>
+                    </div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input js_age" type="number" name="age" placeholder="请输入年龄" />
+                    </div>
+                </div>
+
+                <div class="weui_cell weui_cell_select weui_select_after">
+                    <div class="weui_cell_hd">
+                        性别
+                    </div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <select class="weui_select js_sex" name="sex">
+                            <option value="0">保密</option>
+                            <option value="1">男</option>
+                            <option value="2">女</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="weui_cell weui_cell_select weui_select_before">
+                    <div class="weui_cell_hd">
+                        <select class="weui_select js_phone_ext" name="phone_ext">
+                            <option value="1">+86</option>
+                            <option value="2">+80</option>
+                            <option value="3">+84</option>
+                            <option value="4">+87</option>
+                        </select>
+                    </div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input js_phone" name="phone" type="number" placeholder="请输入手机号码"/>
+                    </div>
+                </div>
+
+                <div class="weui_cell weui_cell_select weui_select_after">
+                    <div class="weui_cell_hd">
+                        分店
+                    </div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <select class="weui_select js_branchId" name="branchId">
+                            <option value="0">请选择</option>
+                            <option value="1">分店一</option>
+                            <option value="2">分店二</option>
+                            <option value="3">分店三</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="weui_cell">
+                    <div class="weui_cell_hd">
+                        <label for="" class="weui_label">时间</label>
+                    </div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input js_summary_time" name="summary_time" type="datetime-local" value="" placeholder=""/>
+                    </div>
+                </div>
+
+                <div class="weui_cells weui_cells_form">
+                    <div class="weui_cell">
+                        <div class="weui_cell_bd weui_cell_primary">
+                            <textarea class="weui_textarea js_summary_item" name="summary_item" placeholder="请输入咨询项目" rows="3"></textarea>
+                            <div class="weui_textarea_counter"><span>0</span>/200</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="weui_cells_tips">请确认您的个人信息是否准确。</div>
+            <div class="weui_btn_area">
+                <a class="weui_btn weui_btn_primary js_submit" href="javascript:">确定</a>
+            </div>
+
+        </div>
+    </div>
+    <div class="weui_toptips weui_warn js_tooltips" style="opacity:0.8">格式不对</div>
+
+    <script type="text/javascript">
+    function beforeSubmit() {
+        var $name = $('.js_name').val(),
+            $age = $('.js_age').val(),
+            $sex = $('.js_sex').val(),
+            $phone_ext = $('.js_phone_ext').val(),
+            $phone = $('.js_phone').val(),
+            $branchId = $('.js_branchId').val(),
+            $summary_time = $('.js_summary_time').val(),
+            $summary_item = $('.js_summary_item').val();
+        if($name=='') {
+            showTips('姓名不可为空');
+            return;
+        }
+        if($age=='') {
+            showTips('年龄不可为空');
+            return;
+        }
+        if($phone=='') {
+            showTips('手机号码不可为空');
+            return;
+        }
+        if(!/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test($phone)) {
+            showTips('手机号码不合法');
+            return;
+        }
+        if($branchId==0) {
+            showTips('请选择分店');
+            return;
+        }
+        if($summary_time=='') {
+            showTips('预约时间不可为空');
+            return;
+        }
+        if($summary_item=='') {
+            showTips('咨询项目不可为空');
+            return;
+        }
+        return true;
+    }
+
+    function showTips(text) {
+        $('.js_tooltips').text(text).show();
+        setTimeout(function () {
+            $('.js_tooltips').hide();
+        }, 2000);
+    }
+    $('.js_submit').tap(function() {
+        if(!beforeSubmit()) {
+            return;
+        }
+    });
+    </script>
+</body>
+</html>
+
