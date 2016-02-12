@@ -4,8 +4,11 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>三养健康预约</title>
-    <link rel="stylesheet" type="text/css" href="http://dev.miyaki.com/www/static/css/weui.min.css">
-    <script type="text/javascript" src="http://dev.miyaki.com/www/static/js/zepto.min.js"></script>
+    <?php
+        $base_url = base_url('/www/static').'/';
+    ?>
+    <link rel="stylesheet" type="text/css" href="<?php echo $base_url;?>/css/weui.min.css">
+    <script type="text/javascript" src="<?php echo $base_url;?>/js/zepto.min.js"></script>
     <style type="text/css">
     .page_title {
         color: #225fba;
