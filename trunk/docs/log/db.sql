@@ -210,3 +210,9 @@ alter table summary_list add wx_openid varchar(32) comment '微信用户标识',
 -- linzequan 20160211
 -- 预约用户数据表添加字段
 alter table summary_list add `create_user_id` int comment '创建用户id', add `create_time` int(11) comment '创建时间戳', add `update_user_id` int comment '更新用户id', add `update_time` int(11) comment '更新时间戳';
+
+
+-- linzequan 20160224
+-- 系统用户数据表修改字段属性
+alter table sys_user modify email varchar(255) default '' comment '邮箱';
+alter table sys_user modify bid int(11) default 0 comment '分店id';

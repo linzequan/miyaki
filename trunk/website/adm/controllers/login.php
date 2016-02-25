@@ -31,7 +31,8 @@ class login extends MY_Controller {
                 'user_id'   =>$result['data']['user_id'],
                 'user_name' =>$result['data']['user_name'],
                 'true_name' =>$result['data']['true_name'],
-                'is_admin'  =>$result['data']['is_admin']
+                'is_admin'  =>$result['data']['is_admin'],
+                'bid'       => $result['data']['bid']
             );
             $this->session->set_userdata($userdata);
             $this->output_result(true, 0, '登录成功');

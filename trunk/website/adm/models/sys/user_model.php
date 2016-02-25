@@ -92,7 +92,7 @@ class user_model extends MY_Model {
 
 
     public function check_login($user_name, $pwd) {
-        $query = $this->db->select('user_id, user_name, true_name, pwd, uposition, is_admin')
+        $query = $this->db->select('user_id, user_name, true_name, pwd, uposition, is_admin, bid')
                         ->from($this->table)
                         ->where('user_name', $user_name)
                         ->get();

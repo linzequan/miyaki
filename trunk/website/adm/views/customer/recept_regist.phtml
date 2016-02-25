@@ -63,9 +63,11 @@
                     到
                     <input class="easyui-datetimebox" style="width:150px;" name="end_time" id="end_time">
                     <br/>
+                    <?php if(!!$showBid) { ?>
                     所属分店：
                     <select id="branch_id" class="easyui-combobox" style="width:200px;" name="branch_id" data-options="valueField:'id',textField:'name'" panelHeight="auto" >
                     </select>
+                    <?php } ?>
                     姓名：
                     <input id="title" class="easyui-textbox" style="width:100px" name="name">
                     电话：

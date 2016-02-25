@@ -40,8 +40,12 @@ class recept_regist_model extends MY_Model {
         if($branchId!=-1) {
             $where[] = array('branchId', $branchId);
         }
-        if($custId!='') {
-            $where[] = array('custId', $custId);
+        if($this->session->userdata('is_admin')=='1') {
+            if($custId!='') {
+                $where[] = array('custId', $custId);
+            }
+        } else {
+            $where[] = array('custId', $this->session->userdata('user_id'));
         }
 
         if(count($order)==0) {
@@ -361,7 +365,9 @@ class recept_regist_model extends MY_Model {
             'thigh_circumference'   => get_value($info, 'thigh_circumference'),
             'drugs_used'            => get_value($info, 'drugs_used'),
             'create_user_id'        => $this->session->userdata('user_id'),
-            'create_time'           => time()
+            'create_time'           => time(),
+            'custId'                => $this->session->userdata('custId'),
+            'branchId'              => $this->session->userdata('bid')
         );
         $this->db->insert($this->table, $data);
         return $this->create_result(true, 0, array('id'=>$this->db->insert_id()));
