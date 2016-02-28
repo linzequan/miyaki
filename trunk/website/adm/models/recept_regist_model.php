@@ -423,6 +423,12 @@ class recept_regist_model extends MY_Model {
             return array();
         }
         $result = $query->result_array();
+        foreach($result as $k=>$v) {
+            // 非管理员不显示非业务员id下的用户
+            if($this->session->userdata('is_admin')!='1' && $v['custId']!=$this->session->userdata('user_id')) {
+                unset($result[$k]);
+            }
+        }
         return $result;
     }
 

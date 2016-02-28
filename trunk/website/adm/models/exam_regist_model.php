@@ -65,7 +65,16 @@ class exam_regist_model extends MY_Model {
             $datas['rows'][$k]['create_time'] = $v['create_time']=='' ? '' : date('Y-m-d H:i:s', $v['create_time']);
             // 更新时间
             $datas['rows'][$k]['update_time'] = $v['update_time']=='' ? '' : date('Y-m-d H:i:s', $v['update_time']);
+
+            // 非管理员不显示非业务员id下的用户
+            if(isset($userinfo) && $this->session->userdata('is_admin')!='1') {
+                // var_dump($userinfo);
+                if($userinfo['custId']!=$this->session->userdata('user_id')) {
+                    unset($datas['rows'][$k]);
+                }
+            }
         }
+        $datas['total'] = count($datas['rows']);
         return $datas;
     }
 
