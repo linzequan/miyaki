@@ -25,12 +25,16 @@ class follow_model extends MY_Model {
         $create_time = get_value($params, 'create_time');       // 登记日期
 
         $where = array();
-        if($custId!=-1) {
-            $where[] = array('custId', $custId);
-        }
         if($create_time!='') {
             $where[] = array('create_time', strtotime($create_time), '>=');
             $where[] = array('create_time', strtotime($create_time)+60*60*24, '<=');
+        }
+        if($this->session->userdata('is_admin')=='1') {
+            if($custId!=-1) {
+                $where[] = array('custId', $custId);
+            }
+        } else {
+            $where[] = array('custId', $this->session->userdata('user_id'));
         }
 
         if(count($order)==0) {
@@ -290,7 +294,7 @@ class follow_model extends MY_Model {
             $str .= '</table>';
             return $str;
         } else {
-            $str = '系统出错，刷新重试！';
+            $str = '暂无跟进记录';
             return $str;
         }
     }

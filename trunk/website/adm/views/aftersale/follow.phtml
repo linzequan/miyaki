@@ -56,9 +56,11 @@
                     <span class="split-line">|</span>
                     记录日期：
                     <input class="easyui-datebox" name="create_time" value="" style="width:120px;">
+                    <?php if(!!$showBid) { ?>
                     所属业务员：
                     <select id="cust_id" class="easyui-combobox" style="width:150px;" name="cust_id" data-options="valueField:'id',textField:'name'" panelHeight="auto" >
                     </select>
+                    <?php } ?>
                     姓名：
                     <input id="name" class="easyui-textbox" style="width:100px" name="name">
                     电话：
