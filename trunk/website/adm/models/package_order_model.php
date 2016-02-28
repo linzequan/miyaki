@@ -177,7 +177,7 @@ class package_order_model extends MY_Model {
             'custId'        => $this->session->userdata('user_id'),
             'discount'      => get_value($info, 'discount'),
             'care_time'     => get_value($info, 'care_time'),
-            'food_num'      => get_value($info, 'food_num'),
+            'food_num'      => get_value($info, 'food_num') || 0,
             'create_user_id'=> $this->session->userdata('user_id'),
             'create_time'   => time()
         );

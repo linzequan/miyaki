@@ -102,6 +102,7 @@ class recept_regist_model extends MY_Model {
         $datas = $this->search($params, $order, $page);
         $this->load->model('package_order_model');
         $CI = &get_instance();
+        // var_dump($datas);
         foreach($datas['rows'] as $k=>$v) {
             // 查询是否有交易记录
             $datas['rows'][$k]['has_trade'] = $CI->package_order_model->has_trade($v['id']);

@@ -58,9 +58,11 @@
                 <div style="margin:3px 0;">
                     交易与否
                     <select id="has_trade" class="easyui-combobox" style="width:100px;" name="has_trade" data-options="valueField:'id', textField: 'name'" panelHeight="auto"></select>
+                    <?php if(!!$showBid) { ?>
                     所属分店：
                     <select id="branch_id" class="easyui-combobox" style="width:200px;" name="branch_id" data-options="valueField:'id',textField:'name'" panelHeight="auto" >
                     </select>
+                    <?php } ?>
                     姓名：
                     <input id="title" class="easyui-textbox" style="width:100px" name="name">
                     电话：
@@ -135,7 +137,7 @@
         });
 
         var json = new Array();
-        json.push({'name': '不限', 'id': -1}, {'name': '已交易', 'id': 1, 'selected': true}, {'name': '未交易', 'id': 2});
+        json.push({'name': '不限', 'id': -1, 'selected': true}, {'name': '已交易', 'id': 1}, {'name': '未交易', 'id': 2});
         $('#has_trade').combobox('loadData', json);
     });
 
