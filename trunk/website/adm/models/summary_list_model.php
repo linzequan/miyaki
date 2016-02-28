@@ -24,9 +24,6 @@ class summary_list_model extends MY_Model {
         $end_time = get_value($params, 'end_time');             // 创建结束时间
 
         $where = array();
-        if($branchId!=-1) {
-            $where[] = array('branchId', $branchId);
-        }
         if($name!='') {
             $where[] = array('name', $name);
         }
@@ -40,13 +37,24 @@ class summary_list_model extends MY_Model {
             $where[] = array('create_time', strtotime($end_time), '<=');
         }
 
+        if($this->session->userdata('is_admin')=='1') {
+            if($branchId!=-1) {
+                $where[] = array('branchId', $branchId);
+            }
+        } else {
+            $where[] = array('branchId', $this->session->userdata('bid'));
+        }
+
         if(count($order)==0) {
             $order[] = ' create_time desc';
         }
         $datas = $this->db->get_page($this->table, $this->fields, $where, $order, $page);
         $this->load->model('sys/user_model', 'user_model');
+        $this->load->model('sys/branch_model', 'branch_model');
         $CI = &get_instance();
         foreach($datas['rows'] as $k=>$v) {
+            // 分店名称
+            $datas['rows'][$k]['branch_name'] = $CI->branch_model->get_name_by_id($v['branchId']) ? $CI->branch_model->get_name_by_id($v['branchId']) : '';
             // 创建记录用户名
             $create_user_info = $CI->user_model->get_userinfo_by_id($v['create_user_id']);
             if($create_user_info) {
@@ -126,7 +134,7 @@ class summary_list_model extends MY_Model {
                 $branch_info = $CI->branch_model->get_name_by_id($rows[0]['branchId']);
                 if($branch_info!='') {
                     $str .= '<tr>' .
-                            '<td class="dv-label">预约分行: </td>' .
+                            '<td class="dv-label">预约分店: </td>' .
                             '<td>' . $branch_info . '</td>' .
                         '</tr>';
                 }

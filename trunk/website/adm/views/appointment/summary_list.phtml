@@ -56,8 +56,10 @@
         <div id="toolbar" style="padding:2px 3px;">
             <form id="fm-search" method="post" novalidate>
                 <div style="margin:3px 0;">
+                    <?php if(!!$showBid) { ?>
                     预约分店：
                     <select id="branch_id" class="easyui-combobox" style="width:200px;" name="branch_id" data-options="valueField:'id',textField:'name'" panelHeight="auto" >
+                    <?php } ?>
                     </select>
                     姓名：
                     <input id="title" class="easyui-textbox" style="width:100px" name="name">

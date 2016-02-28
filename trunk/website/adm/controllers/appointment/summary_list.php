@@ -14,7 +14,8 @@ class summary_list extends MY_Controller {
 
 
     public function index() {
-        $this->load->view('appointment/summary_list');
+        $data['showBid'] = $this->session->userdata('is_admin')=='1' ? true : false;
+        $this->load->view('appointment/summary_list', $data);
     }
 
 
