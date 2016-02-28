@@ -37,12 +37,12 @@ class recept_regist_model extends MY_Model {
         if($phone!='') {
             $where[] = array('phone', $phone, 'like');
         }
-        if($branchId!=-1) {
-            $where[] = array('branchId', $branchId);
-        }
         if($this->session->userdata('is_admin')=='1') {
             if($custId!='') {
                 $where[] = array('custId', $custId);
+            }
+            if($branchId!=-1) {
+                $where[] = array('branchId', $branchId);
             }
         } else {
             $where[] = array('custId', $this->session->userdata('user_id'));
@@ -357,16 +357,16 @@ class recept_regist_model extends MY_Model {
             'blood_sugar'           => get_value($info, 'blood_sugar'),
             'fat_percent'           => get_value($info, 'fat_percent'),
             'BNI'                   => get_value($info, 'BNI'),
-            'visceral_fat'          => get_value($info, 'visceral_fat'),
+            'visceral_fat'          => get_value($info, 'visceral_fat') || 0,
             'basal_metabolism'      => get_value($info, 'basal_metabolism'),
-            'body_age'              => get_value($info, 'body_age'),
+            'body_age'              => get_value($info, 'body_age') || 0,
             'waistline'             => get_value($info, 'waistline'),
             'hipline'               => get_value($info, 'hipline'),
             'thigh_circumference'   => get_value($info, 'thigh_circumference'),
             'drugs_used'            => get_value($info, 'drugs_used'),
             'create_user_id'        => $this->session->userdata('user_id'),
             'create_time'           => time(),
-            'custId'                => $this->session->userdata('custId'),
+            'custId'                => $this->session->userdata('user_id'),
             'branchId'              => $this->session->userdata('bid')
         );
         $this->db->insert($this->table, $data);
@@ -389,9 +389,9 @@ class recept_regist_model extends MY_Model {
             'blood_sugar'           => get_value($info, 'blood_sugar'),
             'fat_percent'           => get_value($info, 'fat_percent'),
             'BNI'                   => get_value($info, 'BNI'),
-            'visceral_fat'          => get_value($info, 'visceral_fat'),
+            'visceral_fat'          => get_value($info, 'visceral_fat') || 0,
             'basal_metabolism'      => get_value($info, 'basal_metabolism'),
-            'body_age'              => get_value($info, 'body_age'),
+            'body_age'              => get_value($info, 'body_age') || 0,
             'waistline'             => get_value($info, 'waistline'),
             'hipline'               => get_value($info, 'hipline'),
             'thigh_circumference'   => get_value($info, 'thigh_circumference'),
