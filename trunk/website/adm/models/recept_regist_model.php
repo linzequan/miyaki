@@ -448,7 +448,10 @@ class recept_regist_model extends MY_Model {
         $customers = $this->getAllUser();
         $customerArr = array();
         foreach($customers as $k=>$v) {
-            $customerArr[] = ['name'=>$v['phone'].'('.$v['name'].')', 'id'=>$v['id']];
+            $tmp = array();
+            $tmp['name'] = $v['phone'].'('.$v['name'].')';
+            $tmp['id'] = $v['id'];
+            $customerArr[] = $tmp;
         }
         return $customerArr;
     }
